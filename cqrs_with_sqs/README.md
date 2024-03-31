@@ -1,20 +1,10 @@
-# Welcome to the CQRS on AWS Git Repository!
-
-This is the Git repository that hosts the code of the different examples approached in the AWS Blog Posts series that show how to
-implement the CQRS architectural pattern on AWS.
-
-For each example described in each AWS Blog Post, you can run the corresponding code and have the related
-infrastructure deployed in your AWS account, exactly as described in each blog post. Each infrastructure is implemented
-as AWS CDK code in Python. AWS CDK is AWS' open source framework in which we can define infrastructure as code in our
-favorite programming languages.
-
-## CQRS on AWS: Synchronizing Command and Query Services with Amazon SQS
+# CQRS on AWS: Synchronizing Command and Query Services with Amazon SQS
 
 This part describes how to have the infrastructure explored in the [CQRS on AWS: Synchronizing Command and Query Services
 with Amazon SQS]() blog post deployed in your AWS account. In this approach, we synchronize command and query services
 by publishing events in an Amazon SQS queue from the command service to be consumed by the query service.
 
-### Running the code to deploy the infrastructure from your local machine
+## Running the code to deploy the infrastructure from your local machine
 
 To run the code of the infrastructure you wish to have deployed in your AWS account, prior to running the AWS CDK code,
 it is necessary to have the NPM package manager, the AWS CLI, the AWS CDK CLI and the Python programming language. If you
@@ -36,7 +26,7 @@ prerequisites are executed. After that, please follow the steps bellow.
 8. Run "cdk bootstrap".
 9. Run "cdk deploy". When the message "Do you wish to deploy these changes (y/n)?", type "y" and hit enter. This will create the entire infrastructure, and will take around 16 minutes.
 
-### Running the example
+## Running the example
 
 After following the steps above, the exact same infrastructure as described in the [CQRS on AWS: Synchronizing Command and Query Services
 with Amazon SQS]() blog post will be provisioned in your AWS account. This includes the databases and APIs of both the
