@@ -1,4 +1,4 @@
-[![pt-br](https://img.shields.io/badge/lang-pt--br-green.svg)](https://github.com/aws-samples/cqrs-on-aws/blob/main/cqrs-with-sqs/README.pt-br.md)
+[![pt-br](https://img.shields.io/badge/lang-pt--br-green.svg)](README.pt-br.md)
 
 # CQRS on AWS: Synchronizing Command and Query Services with Amazon SQS
 
@@ -15,7 +15,7 @@ page. To install the AWS CLI, please follow the instructions in the [Install or 
 page. To install the AWS CDK CLI, please follow the instructions in the [AWS CDK Toolkit](https://docs.aws.amazon.com/cdk/v2/guide/cli.html)
 page. And finally, to install the Python programming language, please follow the instructions at the [Python Downloads Page](https://www.python.org/downloads).
 
-To have the infrastructure deployed in your AWS account by deploying it through your local machine, please make sure all
+To have the infrastructure deployed in your AWS account by deploying it from your local machine, please make sure all
 prerequisites are executed. After that, please follow the steps bellow.
 
 1. Clone this Git repository to your local machine.
@@ -37,9 +37,9 @@ command and query services.
 To run the example, after provisioning the infrastructure in your AWS account, please follow the steps bellow.
 
 1. Log in to your AWS account.
-2. In the "Search" bar, type "API Gateway" and navigate to the first result.
+2. In the search bar, type "API Gateway" and navigate to the first result.
 3. On the left menu, navigate to "API keys".
-4. In the list of keys, copy the "API key" value of the "admin_key" API key. This is a base64-encoded value, and it will be necessary to somehow decode this value. After decoding, you'll see two values separated by colon. These two values are respectively the username and the password we'll use to invoke our APIs. 
+4. In the list of keys, copy the "API key" value of the "admin_key" API key. This is a base64-encoded value, and it will be necessary to somehow decode this value (such as using an online tool, or the “base64” Linux command). After decoding, you'll see two values separated by colon. These two values are respectively the username and the password we'll use to invoke our APIs. 
 5. On the left menu, navigate to "APIs".
 6. In the list of APIs, navigate to the "OrdersAPI" API.
 7. In the left menu, navigate to "Stages". The "prod" stage contains the URI of the provisioned API, in the "Stage details" section, under "Invoke URL". This is the API with which we will interact with both command and query services. Copy this URI. We'll use this API to retrieve a client's details as well as place an order. Note that the same value can be retrieved from the "Outputs" tab of the "cqrsOnAws" stack, in the CloudFormation service page.
@@ -58,9 +58,9 @@ To run the example, after provisioning the infrastructure in your AWS account, p
 ```
 If you're using a tool such as cURL, the POST request will look like the following:
 ```shell
-curl -d '{"id_client":1,"products":[{"id_product":1,"quantity":1},{"id_product":2,"quantity":3}]}' -H "Content-Type: application/json" -H "Authorization: Basic <VALUE OF THE API KEY COPIED IN STEP #4 IN BASE64>" -X POST https://xyz123.execute-api.us-east-1.amazonaws.com/prod/orders
+curl -d '{"id_client":1,"products":[{"id_product":1,"quantity":1},{"id_product":2,"quantity":3}]}' -H "Content-Type: application/json" -H "Authorization: Basic <value of the api key copied in step #4 in base64>" -X POST https://xyz123.execute-api.us-east-1.amazonaws.com/prod/orders
 ```
-After setting the request up, issue the request. You should see the following output:
+Issue this request. You should see the following output:
 ```json
 {
     "statusCode": 200,
@@ -71,7 +71,7 @@ After setting the request up, issue the request. You should see the following ou
 ```shell
 curl -H "Authorization: Basic <VALUE OF THE API KEY COPIED IN STEP #4 IN BASE64>" https://xyz123.execute-api.us-east-1.amazonaws.com/prod/clients/1
 ```
-You should an output similar to the following:
+Issue the request. You should an output similar to the following:
 ```json
 {
     "name": "Bob",
