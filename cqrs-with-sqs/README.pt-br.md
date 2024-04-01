@@ -23,7 +23,7 @@ Para que a infraestrutura seja implantada em sua conta da AWS por meio de sua m�
 4. Execute “source .venv/bin/activate”.
 5. Execute “pip install --upgrade pip”.
 6. Execute “python3.11 -m pip install -r requirements.txt" (a parte “python3.11" do comando pode variar, dependendo da versão do Python que você tem).
-7. Na conta na qual a infraestrutura será provisionada, crie um usuário com acesso de administrador e configure as credenciais desse usuário na AWS CLI (ou seja, com [aws configure] (https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html)). Se as credenciais foram criadas em um perfil da AWS CLI (por exemplo, com aws configure --profile), defina a variável de ambiente AWS_DEFAULT_PROFILE com o nome do perfil criado.
+7. Na conta na qual a infraestrutura será provisionada, crie um usuário com acesso de administrador e configure as credenciais desse usuário na AWS CLI (ou seja, com [aws configure](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html)). Se as credenciais foram criadas em um perfil da AWS CLI (por exemplo, com aws configure --profile), defina a variável de ambiente AWS_DEFAULT_PROFILE com o nome do perfil criado.
 8. Execute “cdk bootstrap”.
 9. Execute “cdk deploy”. Quando a mensagem “Deseja implantar essas mudanças (s/n)? “, digite “y” e pressione enter. Isso criará toda a infraestrutura e levará cerca de 16 minutos.
 
@@ -41,7 +41,42 @@ executar o exemplo, depois de provisionar a infraestrutura em sua conta da AWS, 
 5. No menu à esquerda, navegue até “APIs”.
 6. Na lista de APIs, navegue até o API “OrdersAPI”.
 7. No menu à esquerda, navegue até “Estágios”. O estágio “prod” contém o URI da API provisionada, na seção “Detalhes do estágio”, em “Invoke URL”. Essa é a API com a qual interagiremos com os serviços de comando e consulta. Copie esse URI. Usaremos essa API para recuperar os detalhes de um cliente e fazer um pedido. Observe que o mesmo valor pode ser recuperado na guia “Saídas” da pilha “CqrsonAWS”, na página de serviço do CloudFormation.
-8. Faremos um pedido para o cliente #1 emitindo uma solicitação POST para nosso serviço de comando. Para isso, anexaremos “/orders” ao URI que foi copiado anteriormente (por exemplo, https://xyz123.execute-api.us-east-1.amazonaws.com/prod/orders) e emitiremos uma solicitação POST para ele. Se você estiver usando uma ferramenta como o Postman, adicione uma autenticação básica com o nome de usuário e a senha que foram recuperados na etapa #4. O cabeçalho “Content-Type” é “application/json”. O corpo da solicitação pode ser o seguinte: ```json {“id_client”: 1, “products”: [{“id_product”: 1, “quantity”: 1}, {“id_product”: 2, “quantity”: 3}]} ```Se você estiver usando uma ferramenta como cURL, a solicitação POST terá a seguinte aparência: ```shell curl -d '{"id_client” :1, "products”: [{"id_product” :1, "quantity” :1}, {"id_product” :2, "quantity” :3}]}' -H “Tipo de conteúdo: application/json” -H “Autorização: Básica <VALOR DA CHAVE DE API COPIADA EM PASSO #4 EM BASE64>” -X POST https://xyz123.execute-api.us-east-1.amazonaws.com/prod/orders ```Depois de configurar a solicitação, emita a solicitação. Você deve ver a seguinte saída: ```json {“statusCode”: 200, “body”: “Pedido criado com sucesso! “} ```
-9. Agora, verificaremos se o cliente com id #1 foi salvo em nosso serviço de consulta emitindo uma solicitação GET para ele. Para isso, anexaremos “/clients/1" ao URI que foi copiado na etapa #7 (por exemplo, https://xyz123.execute-api.us-east-1.amazonaws.com/prod/clients/1) e emitiremos uma solicitação GET. Se você estiver usando uma ferramenta como o Postman, adicione uma autenticação básica, assim como foi feito na etapa #8. Se você estiver usando uma ferramenta como cURL, a solicitação GET terá a seguinte aparência: ```shell curl -H “Autorização: Básica <VALUE OF THE API KEY COPIED IN STEP #4 IN BASE64>” https://xyz123.execute-api.us-east-1.amazonaws.com/prod/clients/1 ```Você deve ter uma saída semelhante à seguinte: ```json {“name”: “Bob”, “email”: "bob@anemailprovider.com “, “total”: 3000.0, “last_purchase”: 1707484820}```
+8. Faremos um pedido para o cliente #1 emitindo uma solicitação POST para nosso serviço de comando. Para isso, anexaremos “/orders” ao URI que foi copiado anteriormente (por exemplo, https://xyz123.execute-api.us-east-1.amazonaws.com/prod/orders) e emitiremos uma solicitação POST para ele. Se você estiver usando uma ferramenta como o Postman, adicione uma autenticação básica com o nome de usuário e a senha que foram recuperados na etapa #4. O cabeçalho “Content-Type” é “application/json”. O corpo da solicitação pode ser o seguinte:
+```json
+{
+    "id_client": 1,
+    "products": [{
+         "id_product": 1,
+         "quantity": 1
+    }, {
+         "id_product": 2,
+         "quantity": 3
+    }]
+}
+```
+Se você estiver usando uma ferramenta como cURL, a solicitação POST terá a seguinte aparência:
+```shell
+curl -d '{"id_client":1,"products":[{"id_product":1,"quantity":1},{"id_product":2,"quantity":3}]}' -H "Content-Type: application/json" -H "Authorization: Basic <VALUE OF THE API KEY COPIED IN STEP #4 IN BASE64>" -X POST https://xyz123.execute-api.us-east-1.amazonaws.com/prod/orders
+```
+Depois de configurar a solicitação, emita a solicitação. Você deve ver a seguinte saída:
+```json
+{
+    "statusCode": 200,
+    "body": "Order created successfully!"
+}
+```
+9. Agora, verificaremos se o cliente com id #1 foi salvo em nosso serviço de consulta emitindo uma solicitação GET para ele. Para isso, anexaremos “/clients/1" ao URI que foi copiado na etapa #7 (por exemplo, https://xyz123.execute-api.us-east-1.amazonaws.com/prod/clients/1) e emitiremos uma solicitação GET. Se você estiver usando uma ferramenta como o Postman, adicione uma autenticação básica, assim como foi feito na etapa #8. Se você estiver usando uma ferramenta como cURL, a solicitação GET terá a seguinte aparência:
+```shell
+curl -H "Authorization: Basic <VALUE OF THE API KEY COPIED IN STEP #4 IN BASE64>" https://xyz123.execute-api.us-east-1.amazonaws.com/prod/clients/1
+```
+Você deve ter uma saída semelhante à seguinte:
+```json
+{
+    "name": "Bob",
+    "email": "bob@anemailprovider.com",
+    "total": 3000.0,
+    "last_purchase": 1707484820
+}
+```
 10. É isso aí! Você configurou os serviços de comando e consulta em sua conta da AWS e emitiu solicitações para ela. Sinta-se à vontade para navegar até a página dos serviços que são explorados na postagem do blog para ver como as coisas estão organizadas.
 11. Para remover a infraestrutura que foi provisionada para não incorrer em custos, navegue até a página do serviço CloudFormation, selecione a pilha “CQRSonAWS”, clique no botão “Excluir” e confirme.
