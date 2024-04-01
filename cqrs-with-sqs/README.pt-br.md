@@ -40,7 +40,7 @@ executar o exemplo, depois de provisionar a infraestrutura em sua conta da AWS, 
 4. Na lista de chaves, copie o valor da chave de API "admin_key". Esse é um valor codificado em base64 e será necessário decodificar esse valor de alguma forma (por exemplo, utilizando alguma ferramenta online, ou o próprio comando “base64” do Linux). Após a decodificação, você verá dois valores separados por ":". Esses dois valores são, respectivamente, o nome de usuário e a senha que usaremos para invocar nossas APIs.
 5. No menu à esquerda, navegue até "APIs".
 6. Na lista de APIs, navegue até o API "OrdersAPI".
-7. No menu à esquerda, navegue até "Stages". A stage "prod" contém o URI da API provisionada, na seção "Stage details", em "Invoke URL". Essa é a API que utilizaremos para interagir com os serviços de comando e consulta. Copie esse URI. Usaremos essa API para recuperar os detalhes de um cliente e fazer um pedido. Observe que o mesmo valor pode ser recuperado na guia "Outputs" da stack "CqrsonAWS", na página de serviço do CloudFormation.
+7. No menu à esquerda, navegue até "Stages". A stage "prod" contém o URI da API provisionada, na seção "Stage details", em "Invoke URL". Essa é a API que utilizaremos para interagir com os serviços de comando e consulta. Copie esse URI. Usaremos essa API para recuperar os detalhes de um cliente e fazer um pedido. Observe que o mesmo valor pode ser recuperado na guia "Outputs" da stack "cqrsOnAws", na página de serviço do CloudFormation.
 8. Faremos um pedido para o cliente #1 emitindo uma solicitação POST para nosso serviço de comando. Para isso, anexaremos "/orders" à URI que foi copiada anteriormente (por exemplo, https://xyz123.execute-api.us-east-1.amazonaws.com/prod/orders) e emitiremos uma solicitação POST para ela. Se você estiver usando uma ferramenta como o Postman, adicione uma basic authentication com o nome de usuário e a senha que foram recuperados na etapa #4. O valor do header "Content-Type" é "application/json". O corpo da solicitação pode ser o seguinte:
 ```json
 {
@@ -79,4 +79,4 @@ Emita a requisição. Você deve ter uma saída semelhante à seguinte:
 }
 ```
 10. É isso aí! Você configurou os serviços de comando e consulta em sua conta da AWS e emitiu solicitações para eles. Sinta-se à vontade para navegar até a página dos serviços que são explorados no blog post para ver como as coisas estão organizadas.
-11. Para remover a infraestrutura que foi provisionada para não incorrer em custos, navegue até a página do serviço CloudFormation, selecione a stack "CQRSonAWS", clique no botão "Delete" e confirme.
+11. Para remover a infraestrutura que foi provisionada para não incorrer em custos, navegue até a página do serviço CloudFormation, selecione a stack "cqrsOnAws", clique no botão "Delete" e confirme.
