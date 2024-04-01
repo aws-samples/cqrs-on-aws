@@ -3,7 +3,7 @@
 # CQRS na AWS: sincronizando serviços de comando e consulta com o Amazon SQS
 
 Esta parte descreve como ter a infraestrutura explorada na postagem do blog [CQRS na AWS: Sincronizando os Serviços de
-Command e Query com o Amazon SQS] (https://aws.amazon.com/pt/blogs/aws-brasil/cqrs-na-aws-sincronizando-os-servicos-de-command-e-query-com-o-amazon-sqs)
+Command e Query com o Amazon SQS](https://aws.amazon.com/pt/blogs/aws-brasil/cqrs-na-aws-sincronizando-os-servicos-de-command-e-query-com-o-amazon-sqs)
 implantada em sua conta da AWS. Nessa abordagem, sincronizamos os serviços de comando e consulta publicando eventos em
 uma fila do Amazon SQS a partir do serviço de comando a ser consumido pelo serviço de consulta.
 
@@ -11,13 +11,11 @@ uma fila do Amazon SQS a partir do serviço de comando a ser consumido pelo serv
 
 Para executar o código da infraestrutura que você deseja implantar em sua conta da AWS, antes de executar o código do AWS
 CDK, é necessário ter o gerenciador de pacotes NPM, o AWS CLI, o AWS CDK CLI e a linguagem de programação Python. Se você
-ainda não tiver o gerenciador de pacotes npm instalado, siga as instruções na página [Baixando e instalando Node.js e npm]
-(https://docs.npmjs.com/downloading-and-installing-node-js-and-npm). Para instalar a AWS CLI, siga as instruções na página
-[Instalar ou atualizar para a versão mais recente da AWS CLI] (https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html).
-Para instalar a CLI do AWS CDK, siga as instruções na página [AWS CDK Toolkit] (https://docs.aws.amazon.com/cdk/v2/guide/cli.html).
-E, finalmente, para instalar a linguagem de programação Python, siga as instruções na [Página de downloads do Python]
-(https://www.python.org/downloads). Para que a infraestrutura seja implantada em sua conta da AWS por meio de sua máquina
-local, certifique-se de que todos os pré-requisitos sejam executados. Depois disso, siga as etapas abaixo.
+ainda não tiver o gerenciador de pacotes npm instalado, siga as instruções na página [Baixando e instalando Node.js e npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm).
+Para instalar a AWS CLI, siga as instruções na página [Instalar ou atualizar para a versão mais recente da AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html).
+Para instalar a CLI do AWS CDK, siga as instruções na página [AWS CDK Toolkit](https://docs.aws.amazon.com/cdk/v2/guide/cli.html).
+E, finalmente, para instalar a linguagem de programação Python, siga as instruções na [Página de downloads do Python](https://www.python.org/downloads).
+Para que a infraestrutura seja implantada em sua conta da AWS por meio de sua máquina local, certifique-se de que todos os pré-requisitos sejam executados. Depois disso, siga as etapas abaixo.
 
 1. Clone este repositório Git em sua máquina local.
 2. Em um terminal, navegue até o diretório “cqrs_with_sqs”.
@@ -32,7 +30,7 @@ local, certifique-se de que todos os pré-requisitos sejam executados. Depois di
 ## Executando o exemplo
 
 Depois de seguir as etapas acima, a mesma infraestrutura descrita na postagem do blog [CQRS na AWS: Sincronizando os
-Serviços de Command e Query com o Amazon SQS] (https://aws.amazon.com/pt/blogs/aws-brasil/cqrs-na-aws-sincronizando-os-servicos-de-command-e-query-com-o-amazon-sqs)
+Serviços de Command e Query com o Amazon SQS](https://aws.amazon.com/pt/blogs/aws-brasil/cqrs-na-aws-sincronizando-os-servicos-de-command-e-query-com-o-amazon-sqs)
 será provisionada em sua conta da AWS. Isso inclui os bancos de dados e as APIs dos serviços de comando e consulta. Para
 executar o exemplo, depois de provisionar a infraestrutura em sua conta da AWS, siga as etapas abaixo.
 
