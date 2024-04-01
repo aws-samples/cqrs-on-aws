@@ -1,4 +1,4 @@
-[![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/aws-samples/cqrs-on-aws/README.md)
+[![en](https://img.shields.io/badge/lang-en-red.svg)](https://github.com/aws-samples/cqrs-on-aws/blob/main/README.pt-br.md)
 
 # Bem-vindo ao repositório CQRS on AWS no Git!
 
