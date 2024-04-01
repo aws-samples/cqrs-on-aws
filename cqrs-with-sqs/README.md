@@ -1,7 +1,9 @@
+[![pt-br](https://img.shields.io/badge/lang-pt--br-green.svg)](https://github.com/aws-samples/cqrs-on-aws/cqrs-with-sqs/README.pt-br.md)
+
 # CQRS on AWS: Synchronizing Command and Query Services with Amazon SQS
 
 This part describes how to have the infrastructure explored in the [CQRS on AWS: Synchronizing Command and Query Services
-with Amazon SQS]() blog post deployed in your AWS account. In this approach, we synchronize command and query services
+with Amazon SQS](https://aws.amazon.com/pt/blogs/aws-brasil/cqrs-na-aws-sincronizando-os-servicos-de-command-e-query-com-o-amazon-sqs) blog post deployed in your AWS account. In this approach, we synchronize command and query services
 by publishing events in an Amazon SQS queue from the command service to be consumed by the query service.
 
 ## Running the code to deploy the infrastructure from your local machine
