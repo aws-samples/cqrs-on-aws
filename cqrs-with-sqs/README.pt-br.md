@@ -1,6 +1,6 @@
 [![en](https://img.shields.io/badge/lang-en-red.svg)](README.md)
 
-# CQRS na AWS: Sincronizando Serviços de Command e Query com o Amazon SQS
+# CQRS na AWS: Sincronizando os Serviços de Command e Query com o Amazon SQS
 
 Esta parte descreve como ter a infraestrutura explorada na postagem do blog [CQRS na AWS: Sincronizando os Serviços de
 Command e Query com o Amazon SQS](https://aws.amazon.com/pt/blogs/aws-brasil/cqrs-na-aws-sincronizando-os-servicos-de-command-e-query-com-o-amazon-sqs) implantada em sua conta da AWS. Nessa abordagem, sincronizamos os serviços de comando
