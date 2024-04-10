@@ -19,13 +19,13 @@ pré-requisitos sejam executados. Depois disso, siga as etapas abaixo.
 
 1. Clone este repositório Git em sua máquina local.
 2. Em um terminal, navegue até o diretório "cqrs-with-sqs".
-3. Execute "python3.12 -m venv .venv" (a parte "python3.12" do comando pode variar, dependendo da versão do Python que você tem).
+3. Execute "python3.12 -m venv .venv" (a parte "python3.12" do comando pode variar, dependendo da versão do Python que você tenha).
 4. Execute "source .venv/bin/activate".
 5. Execute "pip install --upgrade pip".
-6. Execute "python3.12 -m pip install -r requirements.txt" (a parte "python3.12" do comando pode variar, dependendo da versão do Python que você tem).
+6. Execute "python3.12 -m pip install -r requirements.txt" (a parte "python3.12" do comando pode variar, dependendo da versão do Python que você tenha).
 7. Na conta na qual a infraestrutura será provisionada, crie um usuário com acesso de administrador e configure as credenciais desse usuário na AWS CLI (ou seja, com [aws configure](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html)). Se as credenciais foram criadas em um perfil da AWS CLI (por exemplo, com aws configure --profile), defina a variável de ambiente AWS_DEFAULT_PROFILE com o nome do perfil criado.
 8. Execute "cdk synth".
-9. Execute "cdk deploy". Quando a mensagem "Do you wish to deploy these changes (y/n)?", digite "y" e pressione enter. Isso criará toda a infraestrutura e levará cerca de 16 minutos.
+9. Execute "cdk deploy". Quando a mensagem "Do you wish to deploy these changes (y/n)?" aparecer, digite "y" e pressione enter. Isso criará toda a infraestrutura e levará cerca de 16 minutos.
 
 ## Executando o exemplo
 
