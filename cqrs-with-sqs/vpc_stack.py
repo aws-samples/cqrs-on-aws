@@ -178,7 +178,7 @@ class VpcStack(Stack):
         # This is the secret manager of the RDS database. The user is random generated and password is random generated
 
         first_letter = secrets.choice(string.ascii_lowercase)
-        allowed_chars = f"{first_letter}{string.ascii_lowercase}{string.digits}-"
+        allowed_chars = f"{first_letter}{string.ascii_lowercase}{string.digits}"
         username = ''.join(secrets.choice(allowed_chars) for i in range(15))
 
         secret = secretsmanager.Secret(self, "orders-db-changes-cluster-credentials",

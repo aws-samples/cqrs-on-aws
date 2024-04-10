@@ -1,4 +1,3 @@
-import datetime
 import json
 import os
 import redis
@@ -16,14 +15,7 @@ def lambda_handler(event, context):
         }
     else:
         current_value = r.json().get(id_client)
-        formatted_value = {
-            "name": current_value["name"],
-            "email": current_value["email"],
-            "total": current_value["total"],
-            "last_purchase": datetime.datetime.fromtimestamp(current_value["last_purchase"]).strftime('%Y-%m-%d %H:%M:%S')
-        }
-
         return {
             'statusCode': 200,
-            'body': json.dumps(formatted_value)
+            'body': json.dumps(current_value)
         }

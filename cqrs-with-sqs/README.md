@@ -19,13 +19,13 @@ To have the infrastructure deployed in your AWS account by deploying it from you
 prerequisites are executed. After that, please follow the steps bellow.
 
 1. Clone this Git repository to your local machine.
-2. On a terminal, navigate to the "cqrs_with_sqs" directory.
-3. Run "python3.11 -m venv .venv" (the "python3.11" part of the command may vary, depending on the version of Python that you have).
+2. On a terminal, navigate to the "cqrs-with-sqs" directory.
+3. Run "python3.12 -m venv .venv" (the "python3.12" part of the command may vary, depending on the version of Python that you have).
 4. Run "source .venv/bin/activate".
 5. Run "pip install --upgrade pip".
-6. Run "python3.11 -m pip install -r requirements.txt" (the "python3.11" part of the command may vary, depending on the version of Python that you have).
+6. Run "python3.12 -m pip install -r requirements.txt" (the "python3.12" part of the command may vary, depending on the version of Python that you have).
 7. In the account in which the infrastructure will be provisioned, create a user with admin access and configure the credentials of this user in the AWS CLI (i.e., with [aws configure](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html)). If the credentials were created in an AWS CLI profile (e.g., with aws configure --profile), set the AWS_DEFAULT_PROFILE environment variable to the name of the created profile. 
-8. Run "cdk bootstrap".
+8. Run "cdk synth".
 9. Run "cdk deploy". When the message "Do you wish to deploy these changes (y/n)?", type "y" and hit enter. This will create the entire infrastructure, and will take around 16 minutes.
 
 ## Running the example

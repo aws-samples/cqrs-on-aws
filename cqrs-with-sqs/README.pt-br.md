@@ -1,12 +1,12 @@
 [![en](https://img.shields.io/badge/lang-en-red.svg)](README.md)
 
-# CQRS na AWS: sincronizando serviços de comando e consulta com o Amazon SQS
+# CQRS na AWS: Sincronizando Serviços de Command e Query com o Amazon SQS
 
 Esta parte descreve como ter a infraestrutura explorada na postagem do blog [CQRS na AWS: Sincronizando os Serviços de
 Command e Query com o Amazon SQS](https://aws.amazon.com/pt/blogs/aws-brasil/cqrs-na-aws-sincronizando-os-servicos-de-command-e-query-com-o-amazon-sqs) implantada em sua conta da AWS. Nessa abordagem, sincronizamos os serviços de comando
 e consulta publicando eventos em uma fila do Amazon SQS a partir do serviço de comando, a ser consumida pelo serviço de consulta.
 
-## Executando o código para implantar a infraestrutura de sua máquina local
+## Executando o código para implantar a infraestrutura a partir da máquina local
 
 Para executar o código da infraestrutura que você deseja implantar em sua conta da AWS, antes de executar o código do AWS
 CDK, é necessário ter o gerenciador de pacotes NPM, o AWS CLI, o AWS CDK CLI e a linguagem de programação Python. Se você
@@ -24,7 +24,7 @@ pré-requisitos sejam executados. Depois disso, siga as etapas abaixo.
 5. Execute "pip install --upgrade pip".
 6. Execute "python3.12 -m pip install -r requirements.txt" (a parte "python3.12" do comando pode variar, dependendo da versão do Python que você tem).
 7. Na conta na qual a infraestrutura será provisionada, crie um usuário com acesso de administrador e configure as credenciais desse usuário na AWS CLI (ou seja, com [aws configure](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html)). Se as credenciais foram criadas em um perfil da AWS CLI (por exemplo, com aws configure --profile), defina a variável de ambiente AWS_DEFAULT_PROFILE com o nome do perfil criado.
-8. Execute "cdk bootstrap".
+8. Execute "cdk synth".
 9. Execute "cdk deploy". Quando a mensagem "Do you wish to deploy these changes (y/n)?", digite "y" e pressione enter. Isso criará toda a infraestrutura e levará cerca de 16 minutos.
 
 ## Executando o exemplo

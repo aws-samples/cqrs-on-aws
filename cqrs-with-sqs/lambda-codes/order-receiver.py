@@ -15,13 +15,15 @@ client = session.client('secretsmanager',
 sqs_client = session.client('sqs',
                             'us-east-1')
 
-secret_value = client.get_secret_value(SecretId='orders-db-changes-cluster-credentials')
+secret_value = client.get_secret_value(SecretId=os.environ['SECRET_NAME'])
 secret = json.loads(secret_value['SecretString'])
 
+db_host = os.environ['DB_HOST']
 db_name = os.environ['DB_NAME']
+db_port = os.environ['DB_PORT']
 queue_url = os.environ['SQS_URL']
 
-conn = pg8000.connect(database=db_name, user=secret['username'], host=secret['host'], port=secret['port'], password=secret['password'])
+conn = pg8000.connect(database=db_name, user=secret['username'], host=db_host, port=db_port, password=secret['password'])
 conn.autocommit = False
 
 logger = Logger()
@@ -76,4 +78,7 @@ def lambda_handler(event, context):
     except Exception as e:
         logger.exception(e)
         conn.rollback()
-        raise e
+        return {
+            'statusCode': 500,
+            'body': 'An internal error occurred.'
+        }
