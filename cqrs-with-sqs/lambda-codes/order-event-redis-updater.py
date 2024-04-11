@@ -11,8 +11,6 @@ r = redis.Redis(host=redis_host, port=redis_port)
 def lambda_handler(event, context):
     body = json.loads(event['Records'][0]['body'])
     r.set(body['messageId'], context.aws_request_id, nx=True, ex=300)
-    print('context: ' + context.aws_request_id)
-    print(r.get(body['messageId']).decode())
 
     if r.get(body['messageId']).decode() == context.aws_request_id:
         if not r.exists(body['id_client']):
