@@ -1,4 +1,5 @@
-[![pt-br](https://img.shields.io/badge/lang-pt--br-green.svg)](README.pt-br.md)
+[![pt-br](https://img.shields.io/badge/lang-pt--br-green.svg)](README.pt-br.md)<br />
+[![es-sp](https://img.shields.io/badge/lang-es--sp-green.svg)](README.es-sp.md)
 
 # CQRS on AWS: Synchronizing Command and Query Services with Amazon SQS
 
