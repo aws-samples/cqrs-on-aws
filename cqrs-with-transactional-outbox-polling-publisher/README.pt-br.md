@@ -1,11 +1,14 @@
 [![en](https://img.shields.io/badge/lang-en-green.svg)](README.md)<br />
 [![es-sp](https://img.shields.io/badge/lang-es--sp-green.svg)](README.es-sp.md)
 
-# CQRS na AWS: Sincronizando os Serviços de Command e Query com o Amazon SQS
+# CQRS na AWS: Sincronizando os Serviços de Command e Query com o Padrão Transactional Outbox e a Técnica Polling Publisher
 
-Esta parte descreve como ter a infraestrutura explorada na postagem do blog [CQRS na AWS: Sincronizando os Serviços de
-Command e Query com o Amazon SQS](https://aws.amazon.com/pt/blogs/aws-brasil/cqrs-na-aws-sincronizando-os-servicos-de-command-e-query-com-o-amazon-sqs) implantada em sua conta da AWS. Nessa abordagem, sincronizamos os serviços de comandos
-e consultas publicando eventos em uma fila do Amazon SQS a partir do serviço de comando, a ser consumida pelo serviço de consulta.
+Esta parte descreve como ter a infraestrutura explorada na postagem do blog [CQRS na AWS: Sincronizando os Serviços de Command e Query com o Padrão Transactional Outbox e a Técnica Polling Publisher](https://aws.amazon.com/pt/blogs/aws-brasil/cqrs-na-aws-sincronizando-os-servicos-de-command-e-query-com-o-padrao-transactional-outbox-e-a-tecnica-polling-publisher)
+implantada em sua conta da AWS. Nessa abordagem, sincronizamos os serviços de comandos e consultas utilizando uma tabela
+outbox. Ao persistir dados nas tabelas envolvidas em uma determinada funcionalidade, persistimos também um registro
+representando o evento referente aos dados sendo persistidos (ex: pedido foi criado, pagamento foi autorizado, etc). De
+tempos em tempos os registros da tabela outbox são recuperados e publicados em uma fila que é lida por um componente que
+atualiza os registros no lado do serviço de consultas.
 
 ## Executando o código para implantar a infraestrutura a partir da máquina local
 
@@ -30,8 +33,7 @@ pré-requisitos sejam executados. Depois disso, siga as etapas abaixo.
 
 ## Executando o exemplo
 
-Depois de seguir as etapas acima, a mesma infraestrutura descrita na postagem do blog [CQRS na AWS: Sincronizando os
-Serviços de Command e Query com o Amazon SQS](https://aws.amazon.com/pt/blogs/aws-brasil/cqrs-na-aws-sincronizando-os-servicos-de-command-e-query-com-o-amazon-sqs)
+Depois de seguir as etapas acima, a mesma infraestrutura descrita na postagem do blog [CQRS na AWS: Sincronizando os Serviços de Command e Query com o Padrão Transactional Outbox e a Técnica Polling Publisher](https://aws.amazon.com/pt/blogs/aws-brasil/cqrs-na-aws-sincronizando-os-servicos-de-command-e-query-com-o-padrao-transactional-outbox-e-a-tecnica-polling-publisher)
 será provisionada em sua conta da AWS. Isso inclui os bancos de dados e as APIs dos serviços de comando e consulta. Para
 executar o exemplo, depois de provisionar a infraestrutura em sua conta da AWS, siga as etapas abaixo.
 
@@ -70,7 +72,7 @@ Emita essa solicitação. Você deverá ver a seguinte saída:
 ```shell
 curl -H "Authorization: Basic <valor da chave de API copiada no passo #4 em base64>" https://xyz123.execute-api.us-east-1.amazonaws.com/prod/clients/1
 ```
-Emita a requisição. Você deve ter uma saída semelhante à seguinte:
+Pelo fato de que os registros da tabela são recuperados de tempos em tempos (a cada 1 minuto, no caso desse exemplo), será necessário esperar o minuto seguinte. Após esperar, emita a requisição. Você deve ter uma saída semelhante à seguinte:
 ```json
 {
     "name": "Bob",
