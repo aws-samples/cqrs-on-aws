@@ -1,7 +1,7 @@
 [![pt-br](https://img.shields.io/badge/lang-pt--br-green.svg)](README.pt-br.md)<br />
 [![es-sp](https://img.shields.io/badge/lang-es--sp-green.svg)](README.es-sp.md)
 
-# CQRS on AWS: Synchronizing Command and Query Services with Amazon SQS
+# CQRS on AWS: Synchronizing Command and Query Services with the Transactional Outbox Pattern and the Polling Publisher Technique
 
 This part describes how to have the infrastructure explored in the blog post [CQRS on AWS: Synchronizing Command and Query Services with the Transactional Outbox Pattern and the Polling Publisher Technique] (https://aws.amazon.com/pt/blogs/aws-brasil/cqrs-na-aws-sincronizando-os-servicos-de-command-e-query-com-o-padrao-transactional-outbox-e-a-tecnica-polling-publisher)
 deployed in your AWS account. In this approach, we synchronize command and query services using an outbox table. When data

@@ -1,7 +1,7 @@
 [![en](https://img.shields.io/badge/lang-en-green.svg)](README.md)<br />
 [![pt-br](https://img.shields.io/badge/lang-pt--br-green.svg)](README.pt-br.md)
 
-# CQRS en AWS: Sincronizando los Servicios de Command y Query con Amazon SQS
+# CQRS en AWS: Sincronizando los Servicios de Command y Query con el Estándar Transactional Outbox y la Técnica Polling Publisher
 
 En esta parte se describe cómo implementar en su cuenta de AWS la infraestructura explorada en la entrada del blog [CQRS en AWS: Sincronizando los Servicios de Command y Query con el Estándar Transactional Outbox y la técnica Transaction Log Tailing] (https://aws.amazon.com/pt/blogs/aws-brasil/cqrs-en-aws-sincronizando-los-servicios-de-command-y-query-con-el-estandar-transactional-outbox-y-la-tecnica-polling-publisher).
 En este enfoque, sincronizamos los servicios de comandos y consultas mediante una tabla de salida. Cuando los datos
