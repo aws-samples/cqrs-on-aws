@@ -209,7 +209,7 @@ class VpcStack(Stack):
 
         lambda_authorizer_sg.add_egress_rule(
             peer=ec2.Peer.any_ipv4(),
-            connection=ec2.Port.all_traffic()
+            connection=ec2.Port.tcp(443)
         )
 
         order_events_table_cleaner_lambda_sg.add_egress_rule(

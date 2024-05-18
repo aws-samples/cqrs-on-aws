@@ -172,7 +172,7 @@ class VpcStack(Stack):
 
         lambda_authorizer_sg.add_egress_rule(
             peer=ec2.Peer.any_ipv4(),
-            connection=ec2.Port.all_traffic()
+            connection=ec2.Port.tcp(443)
         )
 
         # This is the secret manager of the RDS database. The user is random generated and password is random generated
