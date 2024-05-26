@@ -174,37 +174,47 @@ class VpcStack(Stack):
 
         order_receiver_sg.add_egress_rule(
             peer=ec2.Peer.security_group_id(secrets_manager_sg.security_group_id),
-            connection=ec2.Port.all_traffic()
+            connection=ec2.Port.tcp(443)
         )
 
         queue_sg.add_ingress_rule(
             peer=ec2.Peer.ipv4(vpc.vpc_cidr_block),
-            connection=ec2.Port.all_traffic()
+            connection=ec2.Port.tcp(443)
         )
 
         order_event_redis_updater_sg.add_egress_rule(
             peer=ec2.Peer.ipv4(vpc.vpc_cidr_block),
-            connection=ec2.Port.all_traffic()
+            connection=ec2.Port.tcp(443)
+        )
+
+        order_event_redis_updater_sg.add_egress_rule(
+            peer=ec2.Peer.ipv4(vpc.vpc_cidr_block),
+            connection=ec2.Port.tcp(6379)
         )
 
         order_events_table_poller_lambda_sg.add_egress_rule(
             peer=ec2.Peer.ipv4(vpc.vpc_cidr_block),
-            connection=ec2.Port.all_traffic()
+            connection=ec2.Port.tcp(443)
+        )
+
+        order_events_table_poller_lambda_sg.add_egress_rule(
+            peer=ec2.Peer.ipv4(vpc.vpc_cidr_block),
+            connection=ec2.Port.tcp(5432)
         )
 
         order_events_topic_sg.add_ingress_rule(
             peer=ec2.Peer.security_group_id(order_events_table_poller_lambda_sg.security_group_id),
-            connection=ec2.Port.all_traffic()
+            connection=ec2.Port.tcp(443)
         )
 
         order_events_topic_sg.add_egress_rule(
             peer=ec2.Peer.security_group_id(queue_sg.security_group_id),
-            connection=ec2.Port.all_traffic()
+            connection=ec2.Port.tcp(443)
         )
 
         secrets_manager_sg.add_ingress_rule(
             peer=ec2.Peer.ipv4(vpc.vpc_cidr_block),
-            connection=ec2.Port.all_traffic()
+            connection=ec2.Port.tcp(443)
         )
 
         lambda_authorizer_sg.add_egress_rule(

@@ -98,16 +98,6 @@ class VpcStack(Stack):
                                   description="Allow all ip inbound traffic, but only from Database Creator Lambda, OrderReceiver Lambda, and DB Jumpboxsg"
                                   )
 
-        db_sg.add_ingress_rule(
-            peer=ec2.Peer.security_group_id(database_creator_sg.security_group_id),
-            connection=ec2.Port.tcp(5432)
-        )
-
-        db_sg.add_ingress_rule(
-            peer=ec2.Peer.security_group_id(order_receiver_sg.security_group_id),
-            connection=ec2.Port.tcp(5432)
-        )
-
         redis_sg = ec2.SecurityGroup(self, "redis-sg",
                                      vpc=vpc,
                                      allow_all_outbound=False,
@@ -118,6 +108,26 @@ class VpcStack(Stack):
                                                            vpc=vpc,
                                                            description="This sg does not haves inbound rules, only outbound"
                                                            )
+
+        db_sg.add_ingress_rule(
+            peer=ec2.Peer.security_group_id(database_creator_sg.security_group_id),
+            connection=ec2.Port.tcp(5432)
+        )
+
+        db_sg.add_ingress_rule(
+            peer=ec2.Peer.security_group_id(order_receiver_sg.security_group_id),
+            connection=ec2.Port.tcp(5432)
+        )
+
+        order_event_redis_persister_sg.add_egress_rule(
+            peer=ec2.Peer.ipv4(vpc.vpc_cidr_block),
+            connection=ec2.Port.tcp(6378)
+        )
+
+        order_event_redis_persister_sg.add_egress_rule(
+            peer=ec2.Peer.ipv4(vpc.vpc_cidr_block),
+            connection=ec2.Port.tcp(443)
+        )
 
         redis_sg.add_ingress_rule(
             peer=ec2.Peer.security_group_id(order_event_redis_persister_sg.security_group_id),
@@ -146,22 +156,27 @@ class VpcStack(Stack):
 
         order_receiver_sg.add_egress_rule(
             peer=ec2.Peer.security_group_id(sqs_sg.security_group_id),
-            connection=ec2.Port.all_traffic()
+            connection=ec2.Port.tcp(443)
         )
 
         order_receiver_sg.add_egress_rule(
             peer=ec2.Peer.security_group_id(secrets_manager_sg.security_group_id),
-            connection=ec2.Port.all_traffic()
+            connection=ec2.Port.tcp(443)
         )
 
         sqs_sg.add_ingress_rule(
             peer=ec2.Peer.security_group_id(order_receiver_sg.security_group_id),
-            connection=ec2.Port.all_traffic()
+            connection=ec2.Port.tcp(443)
+        )
+
+        sqs_sg.add_ingress_rule(
+            peer=ec2.Peer.security_group_id(order_event_redis_persister_sg.security_group_id),
+            connection=ec2.Port.tcp(443)
         )
 
         secrets_manager_sg.add_ingress_rule(
             peer=ec2.Peer.security_group_id(order_receiver_sg.security_group_id),
-            connection=ec2.Port.all_traffic()
+            connection=ec2.Port.tcp(443)
         )
 
         lambda_authorizer_sg = ec2.SecurityGroup(self, "lambda-authorizer-sg",
@@ -405,7 +420,8 @@ class VpcStack(Stack):
                                                          role=databasecreator_role,
                                                          environment={
                                                              "REDIS_HOST": redis_cluster.attr_redis_endpoint_address,
-                                                             "REDIS_PORT": "6378"
+                                                             "REDIS_PORT": "6378",
+                                                             "ORDER_EVENT_SQS_URL": sqs_ordersevent.queue_url
                                                          },
                                                          vpc=vpc,
                                                          security_groups=[order_event_redis_persister_sg],
