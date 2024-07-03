@@ -26,7 +26,7 @@ Para poder implementar la infraestructura en su cuenta de AWS desde su máquina 
 los requisitos previos. Después de eso, siga los pasos que se indican a continuación.
 
 1. Clona este repositorio de Git en tu máquina local.
-2. En una terminal, navegue hasta el directorio "cqrs-with-sqs".
+2. En una terminal, navegue hasta el directorio "cqrs-with-transactional-outbox-tlt-debezium".
 3. Ejecute "python3.12 -m venv .venv" (la parte "python3.12" del comando puede variar según la versión de Python que tenga).
 4. Ejecute "source .venv/bin/activate".
 5. Ejecute "pip install --upgrade pip".

@@ -24,7 +24,7 @@ To have the infrastructure deployed in your AWS account by deploying it from you
 prerequisites are executed. After that, please follow the steps bellow.
 
 1. Clone this Git repository to your local machine.
-2. On a terminal, navigate to the "cqrs-with-sqs" directory.
+2. On a terminal, navigate to the "cqrs-with-transactional-outbox-tlt-debezium" directory.
 3. Run "python3.12 -m venv .venv" (the "python3.12" part of the command may vary, depending on the version of Python that you have).
 4. Run "source .venv/bin/activate".
 5. Run "pip install --upgrade pip".
