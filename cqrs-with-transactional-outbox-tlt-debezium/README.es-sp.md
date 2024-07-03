@@ -33,7 +33,7 @@ los requisitos previos. Después de eso, siga los pasos que se indican a continu
 6. Ejecute "python3.12 -m pip install -r requirements.txt" (la parte "python3.12" del comando puede variar según la versión de Python que tenga).
 7. En la cuenta en la que se aprovisionará la infraestructura, cree un usuario con acceso de administrador y configure las credenciales de ese usuario en la CLI de AWS (es decir, con [aws configure] (https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html)). Si las credenciales se crearon en un perfil de la CLI de AWS (por ejemplo, con aws configure --profile), defina la variable de entorno AWS_DEFAULT_PROFILE con el nombre del perfil creado.
 8. Ejecute "cdk synth".
-9. Ejecute "cdk deploy". Cuando aparezca el mensaje "Do you wish to deploy these changes (y/n)?" aparezca, escriba "y" y pulse enter. Esto creará toda la infraestructura y tardará unos 16 minutos.
+9. Ejecute "cdk deploy". Cuando aparezca el mensaje "Do you wish to deploy these changes (y/n)?" aparezca, escriba "y" y pulse enter. Esto creará toda la infraestructura y tardará unos 1 hora y 15 minutos.
 
 ## Executando o exemplo
 
