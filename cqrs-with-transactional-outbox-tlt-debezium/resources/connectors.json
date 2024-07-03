@@ -1,0 +1,54 @@
+{
+    "connectors": [
+        {
+            "capacity": {
+                "autoScaling": {
+                    "maxWorkerCount": 3,
+                    "mcuCount": 2,
+                    "minWorkerCount": 2,
+                    "scaleInPolicy": {
+                        "cpuUtilizationPercentage": 20
+                    },
+                    "scaleOutPolicy": {
+                        "cpuUtilizationPercentage": 80
+                    }
+                }
+            },
+            "connectorArn": "arn:aws:kafkaconnect:us-east-1:730335467176:connector/KafkaOrderEventConnector/ecb009d3-61d6-4908-bf80-9d59e3e6b47c-2",
+            "connectorName": "KafkaOrderEventConnector",
+            "connectorState": "RUNNING",
+            "creationTime": "2024-06-29T11:22:02.545000+00:00",
+            "currentVersion": "C13V1IB3VIYZZH",
+            "kafkaCluster": {
+                "apacheKafkaCluster": {
+                    "bootstrapServers": "b-2.ordereventcluster.ghilc3.c2.kafka.us-east-1.amazonaws.com:9098,b-1.ordereventcluster.ghilc3.c2.kafka.us-east-1.amazonaws.com:9098",
+                    "vpc": {
+                        "securityGroups": [
+                            "sg-0898a6afe5363a543"
+                        ],
+                        "subnets": [
+                            "subnet-0564e892f68e2013a",
+                            "subnet-0c144aeefbdc978f0"
+                        ]
+                    }
+                }
+            },
+            "kafkaClusterClientAuthentication": {
+                "authenticationType": "IAM"
+            },
+            "kafkaClusterEncryptionInTransit": {
+                "encryptionType": "TLS"
+            },
+            "kafkaConnectVersion": "2.7.1",
+            "plugins": [
+                {
+                    "customPlugin": {
+                        "customPluginArn": "arn:aws:kafkaconnect:us-east-1:730335467176:custom-plugin/debezium-plugin/d488552b-78a0-4c8a-8373-7e06bc52539e-2",
+                        "revision": 1
+                    }
+                }
+            ],
+            "serviceExecutionRoleArn": "arn:aws:iam::730335467176:role/cqrsOnAws-CustomAWSRoleforKafkaConnectrole233256DD-eLWqTeEKdsMD"
+        }
+    ]
+}

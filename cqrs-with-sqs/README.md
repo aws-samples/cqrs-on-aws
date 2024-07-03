@@ -40,7 +40,7 @@ To run the example, after provisioning the infrastructure in your AWS account, p
 1. Log in to your AWS account.
 2. In the search bar, type "API Gateway" and navigate to the first result.
 3. On the left menu, navigate to "API keys".
-4. In the list of keys, copy the "API key" value of the "admin_key" API key. This is a base64-encoded value, and it will be necessary to somehow decode this value (such as using an online tool, or the “base64” Linux command). After decoding, you'll see two values separated by colon. These two values are respectively the username and the password we'll use to invoke our APIs. 
+4. In the list of keys, copy the "API key" value of the "admin_key" API key. This is a base64-encoded value, and it will be necessary to somehow decode this value (such as using an online tool, or the "base64" Linux command). After decoding, you'll see two values separated by colon. These two values are respectively the username and the password we'll use to invoke our APIs. 
 5. On the left menu, navigate to "APIs".
 6. In the list of APIs, navigate to the "OrdersAPI" API.
 7. In the left menu, navigate to "Stages". The "prod" stage contains the URI of the provisioned API, in the "Stage details" section, under "Invoke URL". This is the API with which we will interact with both command and query services. Copy this URI. We'll use this API to retrieve a client's details as well as place an order. Note that the same value can be retrieved from the "Outputs" tab of the "cqrsOnAws" stack, in the CloudFormation service page.

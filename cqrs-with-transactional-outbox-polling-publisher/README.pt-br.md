@@ -40,7 +40,7 @@ executar o exemplo, depois de provisionar a infraestrutura em sua conta da AWS, 
 1. Faça login na sua conta da AWS.
 2. Na barra de pesquisa, digite "API Gateway" e navegue até o primeiro resultado.
 3. No menu à esquerda, navegue até "API keys".
-4. Na lista de chaves, copie o valor da chave de API "admin_key". Esse é um valor codificado em base64 e será necessário decodificar esse valor de alguma forma (por exemplo, utilizando alguma ferramenta online, ou o próprio comando “base64” do Linux). Após a decodificação, você verá dois valores separados por ":". Esses dois valores são, respectivamente, o nome de usuário e a senha que usaremos para invocar nossas APIs.
+4. Na lista de chaves, copie o valor da chave de API "admin_key". Esse é um valor codificado em base64 e será necessário decodificar esse valor de alguma forma (por exemplo, utilizando alguma ferramenta online, ou o próprio comando "base64" do Linux). Após a decodificação, você verá dois valores separados por ":". Esses dois valores são, respectivamente, o nome de usuário e a senha que usaremos para invocar nossas APIs.
 5. No menu à esquerda, navegue até "APIs".
 6. Na lista de APIs, navegue até o API "OrdersAPI".
 7. No menu à esquerda, navegue até "Stages". A stage "prod" contém o URI da API provisionada, na seção "Stage details", em "Invoke URL". Essa é a API que utilizaremos para interagir com os serviços de comando e consulta. Copie esse URI. Usaremos essa API para recuperar os detalhes de um cliente e fazer um pedido. Observe que o mesmo valor pode ser recuperado na guia "Outputs" da stack "cqrsOnAws", na página de serviço do CloudFormation.

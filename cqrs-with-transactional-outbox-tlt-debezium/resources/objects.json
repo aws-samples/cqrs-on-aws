@@ -1,0 +1,159 @@
+{
+    "Contents": [
+        {
+            "Key": "0606cd9424f4086e5b489728cd0ed0a6b79cd6d0d82efef6af194bdbd270010c.json",
+            "LastModified": "2024-06-29T00:03:14+00:00",
+            "ETag": "\"efbb1ff029816de6e9a37a9c6f50a356\"",
+            "Size": 108460,
+            "StorageClass": "STANDARD",
+            "Owner": {
+                "DisplayName": "bperillo+cqrs_test",
+                "ID": "de2eaca731ff9f63bd155f0f8b2e18402d192917120b5146fc42154f962c1aa3"
+            }
+        },
+        {
+            "Key": "4f197ee3d0f191604fd18f8d2acd1056becea705446d1799277b5d51b462fbef.zip",
+            "LastModified": "2024-06-29T00:03:13+00:00",
+            "ETag": "\"3c3924cb2ef2c36ebb013b376b0b53fb\"",
+            "Size": 791077,
+            "StorageClass": "STANDARD",
+            "Owner": {
+                "DisplayName": "bperillo+cqrs_test",
+                "ID": "de2eaca731ff9f63bd155f0f8b2e18402d192917120b5146fc42154f962c1aa3"
+            }
+        },
+        {
+            "Key": "5d5fe1a704fd6df73dd8db17c799ff6c258a8e608a54c9821c0b69b07a5747ab.zip",
+            "LastModified": "2024-06-29T00:03:13+00:00",
+            "ETag": "\"eabe76703642f10d6b559aff1abd94f4\"",
+            "Size": 888998,
+            "StorageClass": "STANDARD",
+            "Owner": {
+                "DisplayName": "bperillo+cqrs_test",
+                "ID": "de2eaca731ff9f63bd155f0f8b2e18402d192917120b5146fc42154f962c1aa3"
+            }
+        },
+        {
+            "Key": "74af9ccd403d9af607964a0a6d592c91b53f75fffd1514a683400dd581480e76.zip",
+            "LastModified": "2024-06-29T00:03:11+00:00",
+            "ETag": "\"5eca2679eb5a84879ba326c9a421c89c\"",
+            "Size": 1623675,
+            "StorageClass": "STANDARD",
+            "Owner": {
+                "DisplayName": "bperillo+cqrs_test",
+                "ID": "de2eaca731ff9f63bd155f0f8b2e18402d192917120b5146fc42154f962c1aa3"
+            }
+        },
+        {
+            "Key": "835941f67dff49780baf1040c5334fd9890cbd5cdca34c947a79fe5d7418e99b.zip",
+            "LastModified": "2024-06-29T00:03:11+00:00",
+            "ETag": "\"1dfb041d5038f86fcc37ac4aef976347\"",
+            "Size": 711,
+            "StorageClass": "STANDARD",
+            "Owner": {
+                "DisplayName": "bperillo+cqrs_test",
+                "ID": "de2eaca731ff9f63bd155f0f8b2e18402d192917120b5146fc42154f962c1aa3"
+            }
+        },
+        {
+            "Key": "86073be63b3d21cfe8a8e1d629002dbd6336e28d136dc6ebe30f1227316c3add.zip",
+            "LastModified": "2024-06-29T00:03:11+00:00",
+            "ETag": "\"6c19b2ef2ae9873896d3c53550f05181\"",
+            "Size": 1622893,
+            "StorageClass": "STANDARD",
+            "Owner": {
+                "DisplayName": "bperillo+cqrs_test",
+                "ID": "de2eaca731ff9f63bd155f0f8b2e18402d192917120b5146fc42154f962c1aa3"
+            }
+        },
+        {
+            "Key": "a37b2b599cc6e8c8193d243bc57fecfde79aa0f50852056cc68b990a6be4b14e.zip",
+            "LastModified": "2024-06-29T00:03:11+00:00",
+            "ETag": "\"c882d836a7479933678e5139d3636011-3\"",
+            "Size": 12129920,
+            "StorageClass": "STANDARD",
+            "Owner": {
+                "DisplayName": "bperillo+cqrs_test",
+                "ID": "de2eaca731ff9f63bd155f0f8b2e18402d192917120b5146fc42154f962c1aa3"
+            }
+        },
+        {
+            "Key": "a8dfa3457acd310b9d157df89cb1cd69f2d7262878582faaec18b28ea2857c12.zip",
+            "LastModified": "2024-06-29T00:03:13+00:00",
+            "ETag": "\"3a5e4ddccf7fba98090d7d185d58234a\"",
+            "Size": 791187,
+            "StorageClass": "STANDARD",
+            "Owner": {
+                "DisplayName": "bperillo+cqrs_test",
+                "ID": "de2eaca731ff9f63bd155f0f8b2e18402d192917120b5146fc42154f962c1aa3"
+            }
+        },
+        {
+            "Key": "b077548f4b631dbec3c306c65605ad908fcac8364215cf93ece1012c7ee91b8f.zip",
+            "LastModified": "2024-06-29T00:03:12+00:00",
+            "ETag": "\"2209beb9f1a68719bba5d6344a34119a\"",
+            "Size": 1761286,
+            "StorageClass": "STANDARD",
+            "Owner": {
+                "DisplayName": "bperillo+cqrs_test",
+                "ID": "de2eaca731ff9f63bd155f0f8b2e18402d192917120b5146fc42154f962c1aa3"
+            }
+        },
+        {
+            "Key": "b16e1bb62278f1f7f666a89f817cc136b285dd2b7365a20f8592aa6cc682f5fd.zip",
+            "LastModified": "2024-06-29T00:03:11+00:00",
+            "ETag": "\"63a7790e8d7486220404aa7bfc9a180c\"",
+            "Size": 1201732,
+            "StorageClass": "STANDARD",
+            "Owner": {
+                "DisplayName": "bperillo+cqrs_test",
+                "ID": "de2eaca731ff9f63bd155f0f8b2e18402d192917120b5146fc42154f962c1aa3"
+            }
+        },
+        {
+            "Key": "d99929be2fc6a5f97389aeb5a60a32c28dcc2f9749f0c6446b3de693a78c27e5.json",
+            "LastModified": "2024-06-29T10:15:14+00:00",
+            "ETag": "\"956d181f2d4dc49e4eca32aef930a62a\"",
+            "Size": 108996,
+            "StorageClass": "STANDARD",
+            "Owner": {
+                "DisplayName": "bperillo+cqrs_test",
+                "ID": "de2eaca731ff9f63bd155f0f8b2e18402d192917120b5146fc42154f962c1aa3"
+            }
+        },
+        {
+            "Key": "dd5711540f04e06aa955d7f4862fc04e8cdea464cb590dae91ed2976bb78098e.zip",
+            "LastModified": "2024-06-29T00:03:11+00:00",
+            "ETag": "\"a67aeb3d688bd633586883cd51e15934\"",
+            "Size": 2335,
+            "StorageClass": "STANDARD",
+            "Owner": {
+                "DisplayName": "bperillo+cqrs_test",
+                "ID": "de2eaca731ff9f63bd155f0f8b2e18402d192917120b5146fc42154f962c1aa3"
+            }
+        },
+        {
+            "Key": "f85a0caa61b76cc995384742d003ad8eadb8f53b0dd27c4e463336e2bd592acf.zip",
+            "LastModified": "2024-06-29T00:03:11+00:00",
+            "ETag": "\"a9e24874650b97eb33f3a3cbf310901e\"",
+            "Size": 326,
+            "StorageClass": "STANDARD",
+            "Owner": {
+                "DisplayName": "bperillo+cqrs_test",
+                "ID": "de2eaca731ff9f63bd155f0f8b2e18402d192917120b5146fc42154f962c1aa3"
+            }
+        },
+        {
+            "Key": "security-update-response.json",
+            "LastModified": "2024-06-29T10:51:50+00:00",
+            "ETag": "\"2a235c6b969870f1013e0d2f86256942\"",
+            "Size": 1356,
+            "StorageClass": "STANDARD",
+            "Owner": {
+                "DisplayName": "bperillo+cqrs_test",
+                "ID": "de2eaca731ff9f63bd155f0f8b2e18402d192917120b5146fc42154f962c1aa3"
+            }
+        }
+    ],
+    "RequestCharged": null
+}

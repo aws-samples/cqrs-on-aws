@@ -3,7 +3,7 @@
 
 # CQRS en AWS: Sincronizando los Servicios de Command y Query con el Estándar Transactional Outbox y la Técnica Polling Publisher
 
-En esta parte se describe cómo implementar en su cuenta de AWS la infraestructura explorada en la entrada del blog[CQRS en AWS: Sincronizando los Servicios de Command y Query con el Estándar Transactional Outbox y la técnica Transaction Log Tailing] (https://aws.amazon.com/pt/blogs/aws-brasil/cqrs-en-aws-sincronizando-los-servicios-de-command-y-query-con-el-estandar-transactional-outbox-y-la-tecnica-polling-publisher).
+En esta parte se describe cómo implementar en su cuenta de AWS la infraestructura explorada en la entrada del blog[CQRS en AWS: Sincronizando los Servicios de Command y Query con el Estándar Transactional Outbox y la técnica Transaction Log Tailing](https://aws.amazon.com/es/blogs/aws-spanish/cqrs-en-aws-sincronizando-los-servicios-de-command-y-query-con-el-estandar-transactional-outbox-y-la-tecnica-polling-publisher).
 En este enfoque, sincronizamos los servicios de comandos y consultas mediante una tabla de salida. Cuando los datos
 persisten en las tablas relacionadas con una funcionalidad determinada, también conservamos un registro que representa
 el evento relacionado con los datos que se conservan (por ejemplo, se creó un pedido, se autorizó el pago, etc.). De vez

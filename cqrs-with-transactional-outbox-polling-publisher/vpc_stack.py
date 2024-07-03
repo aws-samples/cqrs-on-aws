@@ -329,9 +329,13 @@ class VpcStack(Stack):
         ordereventredisupdater_role.add_managed_policy(
             iam.ManagedPolicy.from_aws_managed_policy_name("service-role/AWSLambdaVPCAccessExecutionRole"))
         ordereventredisupdater_role.add_to_policy(iam.PolicyStatement(effect=iam.Effect.ALLOW,
-                                                                      actions=["sqs:DeleteMessage", "sqs:SendMessage"],
-                                                                      resources=[sqs_redis_updater_queue.queue_arn,
-                                                                                 order_event_table_cleaner_queue.queue_arn]))
+                                                                      actions=["sqs:DeleteMessage"],
+                                                                      resources=[sqs_redis_updater_queue.queue_arn]
+                                                                      ))
+        ordereventredisupdater_role.add_to_policy(iam.PolicyStatement(effect=iam.Effect.ALLOW,
+                                                                      actions=["sqs:SendMessage"],
+                                                                      resources=[order_event_table_cleaner_queue.queue_arn]
+                                                                      ))
 
         orderreceiver_role = iam.Role(self, "OrderReceiver_role",
                                       assumed_by=iam.ServicePrincipal("lambda.amazonaws.com"))
@@ -363,7 +367,7 @@ class VpcStack(Stack):
         lambdaAuthorizer_role.add_managed_policy(
             iam.ManagedPolicy.from_aws_managed_policy_name("service-role/AWSLambdaVPCAccessExecutionRole"))
         lambdaAuthorizer_role.add_to_policy(iam.PolicyStatement(effect=iam.Effect.ALLOW,
-                                                                actions=["apigateway:*"],
+                                                                actions=["apigateway:GET"],
                                                                 resources=[
                                                                     f"arn:aws:apigateway:{aws_cdk.Aws.REGION}::/apikeys"]))
 
