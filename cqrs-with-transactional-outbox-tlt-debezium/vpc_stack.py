@@ -84,11 +84,6 @@ class VpcStack(Stack):
                                    )
 
         # security group creation
-        order_email_sender_sg = ec2.SecurityGroup(self,
-                                                  "OrderEventMailSenderSG",
-                                                  vpc=vpc
-                                                  )
-
         lambda_to_redis_sg = ec2.SecurityGroup(self,
                                                "LambdaToRedisSG",
                                                vpc=vpc,
@@ -101,46 +96,6 @@ class VpcStack(Stack):
                                      description="Allow all inbound, but only from the source privateserversg, ordereventredispersistersg, and clientretrieversg"
                                      )
 
-        eic_sg = ec2.SecurityGroup(self,
-                                   "eicSG",
-                                   vpc=vpc,
-                                   )
-
-        lambda_to_redis_sg.add_egress_rule(
-            peer=ec2.Peer.ipv4("10.0.0.0/16"),
-            connection=ec2.Port.all_traffic()
-        )
-
-        open_sg_in_vpc = ec2.SecurityGroup(self,
-                                           "OpenSGInVPC",
-                                           vpc=vpc,
-                                           allow_all_outbound=False
-                                           )
-
-        open_sg_in_vpc.add_egress_rule(
-            peer=ec2.Peer.ipv4("10.0.0.0/16"),
-            connection=ec2.Port.all_traffic()
-        )
-
-        open_sg_in_vpc.add_ingress_rule(
-            peer=ec2.Peer.ipv4("10.0.0.0/16"),
-            connection=ec2.Port.all_traffic()
-        )
-
-        wer_server_sg = ec2.SecurityGroup(self, "wer-server-sg",
-                                          vpc=vpc
-                                          )
-
-        wer_server_sg.add_ingress_rule(
-            peer=ec2.Peer.any_ipv4(),
-            connection=ec2.Port.tcp(22)
-        )
-
-        wer_server_sg.add_ingress_rule(
-            peer=ec2.Peer.ipv4("10.0.0.0/16"),
-            connection=ec2.Port.all_traffic()
-        )
-
         order_receiver_sg = ec2.SecurityGroup(self,
                                               "order-receiver-sg",
                                               vpc=vpc
@@ -151,11 +106,6 @@ class VpcStack(Stack):
                                                vpc=vpc,
                                                allow_all_outbound=False
                                                )
-
-        clientretriever_sg.add_egress_rule(
-            peer=ec2.Peer.ipv4("10.0.0.0/16"),
-            connection=ec2.Port.tcp(6379)
-        )
 
         ordereventadapter_sg = ec2.SecurityGroup(self,
                                                  "OrderEventAdapterSG",
@@ -173,11 +123,6 @@ class VpcStack(Stack):
                                         vpc=vpc,
                                         )
 
-        ordermsk_sg.add_ingress_rule(
-            peer=ec2.Peer.ipv4("10.0.0.0/16"),
-            connection=ec2.Port.tcp(9098)
-        )
-
         lambdaauthorizer_sg = ec2.SecurityGroup(self,
                                                 "LambdaAuthorizerSG",
                                                 vpc=vpc,
@@ -188,24 +133,24 @@ class VpcStack(Stack):
                                                       vpc=vpc,
                                                       )
 
-        privatewebserver_sg = ec2.SecurityGroup(self,
-                                                "privateWebServerSG",
-                                                vpc=vpc,
-                                                )
-
-        default_sg = ec2.SecurityGroup(self,
-                                       "default",
-                                       vpc=vpc,
-                                       allow_all_outbound=False)
-
-        eic_sg.add_egress_rule(
-            peer=ec2.Peer.any_ipv4(),
-            connection=ec2.Port.tcp(22)
+        lambda_to_redis_sg.add_egress_rule(
+            peer=ec2.Peer.ipv4(vpc.vpc_cidr_block),
+            connection=ec2.Port.tcp(6379)
         )
 
-        privatewebserver_sg.add_ingress_rule(
-            peer=ec2.Peer.security_group_id(eic_sg.security_group_id),
-            connection=ec2.Port.tcp(22)
+        lambda_to_redis_sg.add_egress_rule(
+            peer=ec2.Peer.ipv4(vpc.vpc_cidr_block),
+            connection=ec2.Port.tcp(443)
+        )
+
+        clientretriever_sg.add_egress_rule(
+            peer=ec2.Peer.ipv4(vpc.vpc_cidr_block),
+            connection=ec2.Port.tcp(6379)
+        )
+
+        ordermsk_sg.add_ingress_rule(
+            peer=ec2.Peer.ipv4(vpc.vpc_cidr_block),
+            connection=ec2.Port.tcp(9098)
         )
 
         redis_sg.add_ingress_rule(
@@ -214,18 +159,8 @@ class VpcStack(Stack):
         )
 
         redis_sg.add_ingress_rule(
-            peer=ec2.Peer.security_group_id(privatewebserver_sg.security_group_id),
-            connection=ec2.Port.tcp(6379)
-        )
-
-        redis_sg.add_ingress_rule(
             peer=ec2.Peer.security_group_id(clientretriever_sg.security_group_id),
             connection=ec2.Port.tcp(6379)
-        )
-
-        db_sg.add_ingress_rule(
-            peer=ec2.Peer.security_group_id(wer_server_sg.security_group_id),
-            connection=ec2.Port.tcp(5432)
         )
 
         db_sg.add_ingress_rule(
@@ -246,31 +181,6 @@ class VpcStack(Stack):
         db_sg.add_ingress_rule(
             peer=ec2.Peer.security_group_id(order_receiver_sg.security_group_id),
             connection=ec2.Port.tcp(5432)
-        )
-
-        default_sg.add_ingress_rule(
-            peer=ec2.Peer.ipv4("10.0.0.0/16"),
-            connection=ec2.Port.all_traffic()
-        )
-
-        default_sg.add_ingress_rule(
-            peer=ec2.Peer.ipv4("10.0.0.0/16"),
-            connection=ec2.Port.tcp(9098)
-        )
-
-        default_sg.add_ingress_rule(
-            peer=ec2.Peer.ipv4("10.0.0.0/16"),
-            connection=ec2.Port.tcp(6379)
-        )
-
-        default_sg.add_egress_rule(
-            peer=ec2.Peer.any_ipv4(),
-            connection=ec2.Port.tcp(443)
-        )
-
-        default_sg.add_egress_rule(
-            peer=ec2.Peer.ipv4("10.0.0.0/16"),
-            connection=ec2.Port.all_traffic()
         )
 
         # Bucket S3 creation for debezium custom plugin files
@@ -846,19 +756,32 @@ class VpcStack(Stack):
                                    }]
                                    )
 
+        topic = f"arn:aws:kafka:{aws_cdk.Aws.REGION}:{aws_cdk.Aws.ACCOUNT_ID}:topic/{msk_cluster.cluster_name}/*/*"
+        group = f"arn:aws:kafka:{aws_cdk.Aws.REGION}:{aws_cdk.Aws.ACCOUNT_ID}:group/{msk_cluster.cluster_name}/*/*"
+
         # Event Bridge Pipes
         Amazon_EventBridge_Pipe_OrderEventPipe_role = iam.Role(self, "Amazon_EventBridge_Pipe_OrderEventPipe_role",
                                                                assumed_by=iam.ServicePrincipal("pipes.amazonaws.com"))
         Amazon_EventBridge_Pipe_OrderEventPipe_role.add_to_policy(iam.PolicyStatement(effect=iam.Effect.ALLOW,
                                                                                       actions=["kafka-cluster:*Topic*",
-                                                                                               "kafka-cluster:AlterGroup",
                                                                                                "kafka-cluster:ReadData",
-                                                                                               "kafka-cluster:DescribeCluster",
-                                                                                               "kafka-cluster:AlterCluster",
-                                                                                               "kafka-cluster:DescribeGroup",
-                                                                                               "kafka-cluster:Connect",
                                                                                                "kafka-cluster:WriteData"],
-                                                                                      resources=["*"]))
+                                                                                      resources=[topic]))
+
+        Amazon_EventBridge_Pipe_OrderEventPipe_role.add_to_policy(iam.PolicyStatement(effect=iam.Effect.ALLOW,
+                                                                                      actions=[
+                                                                                          "kafka-cluster:AlterGroup",
+                                                                                          "kafka-cluster:DescribeGroup"],
+                                                                                      resources=[group]))
+
+        Amazon_EventBridge_Pipe_OrderEventPipe_role.add_to_policy(iam.PolicyStatement(effect=iam.Effect.ALLOW,
+                                                                                      actions=[
+                                                                                          "kafka-cluster:DescribeCluster",
+                                                                                          "kafka-cluster:AlterCluster",
+                                                                                          "kafka-cluster:Connect",
+                                                                                          "kafka:DescribeClusterV2",
+                                                                                          "kafka:GetBootstrapBrokers"],
+                                                                                      resources=[msk_cluster.attr_arn]))
         Amazon_EventBridge_Pipe_OrderEventPipe_role.add_to_policy(iam.PolicyStatement(effect=iam.Effect.ALLOW,
                                                                                       actions=["lambda:InvokeFunction"],
                                                                                       resources=[
@@ -868,20 +791,25 @@ class VpcStack(Stack):
                                                                                       resources=[
                                                                                           order_event_topic.topic_arn]))
         Amazon_EventBridge_Pipe_OrderEventPipe_role.add_to_policy(iam.PolicyStatement(effect=iam.Effect.ALLOW,
-                                                                                      actions=["kafka:DescribeCluster",
-                                                                                               "kafka:DescribeClusterV2",
-                                                                                               "kafka:GetBootstrapBrokers"],
-                                                                                      resources=[msk_cluster.attr_arn]))
-        Amazon_EventBridge_Pipe_OrderEventPipe_role.add_to_policy(iam.PolicyStatement(effect=iam.Effect.ALLOW,
                                                                                       actions=[
                                                                                           "ec2:DescribeNetworkInterfaces",
                                                                                           "ec2:DescribeSubnets",
                                                                                           "ec2:DescribeSecurityGroups",
-                                                                                          "ec2:DescribeVpcs",
-                                                                                          "ec2:CreateNetworkInterface",
-                                                                                          "ec2:DeleteNetworkInterface"],
+                                                                                          "ec2:DescribeVpcs"],
                                                                                       resources=["*"]
                                                                                       ))
+        Amazon_EventBridge_Pipe_OrderEventPipe_role.add_to_policy(iam.PolicyStatement(effect=iam.Effect.ALLOW,
+                                                                                      actions=[
+                                                                                          "ec2:CreateNetworkInterface",
+                                                                                          "ec2:DeleteNetworkInterface"],
+                                                                                      resources=["*"],
+                                                                                      conditions={
+                                                                                          "StringEqualsIfExists": {
+                                                                                              "ec2:SubnetID": vpc.select_subnets(
+                                                                                                  subnet_type=ec2.SubnetType.PRIVATE_WITH_EGRESS).subnet_ids
+                                                                                          }
+                                                                                      }))
+
         order_event_pipe_log_group = logs.LogGroup(self, "order_event_pipe_log_group")
 
         # Event Bridge pipes creation
