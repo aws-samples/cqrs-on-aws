@@ -1,0 +1,2795 @@
+Resources:
+  ordersvpc02F53E79:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
+      InstanceTenancy: default
+      Tags:
+        - Key: Name
+          Value: cqrsOnAws/orders-vpc
+    Metadata:
+      aws:cdk:path: cqrsOnAws/orders-vpc/Resource
+  ordersvpcPublicSubnetSubnet1Subnet7A589D1B:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone:
+        Fn::Select:
+          - 0
+          - Fn::GetAZs: ""
+      CidrBlock: 10.0.0.0/24
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: aws-cdk:subnet-name
+          Value: PublicSubnet
+        - Key: aws-cdk:subnet-type
+          Value: Public
+        - Key: Name
+          Value: cqrsOnAws/orders-vpc/PublicSubnetSubnet1
+      VpcId:
+        Ref: ordersvpc02F53E79
+    Metadata:
+      aws:cdk:path: cqrsOnAws/orders-vpc/PublicSubnetSubnet1/Subnet
+  ordersvpcPublicSubnetSubnet1RouteTableAE072EFA:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      Tags:
+        - Key: Name
+          Value: cqrsOnAws/orders-vpc/PublicSubnetSubnet1
+      VpcId:
+        Ref: ordersvpc02F53E79
+    Metadata:
+      aws:cdk:path: cqrsOnAws/orders-vpc/PublicSubnetSubnet1/RouteTable
+  ordersvpcPublicSubnetSubnet1RouteTableAssociationCFF69FF6:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: ordersvpcPublicSubnetSubnet1RouteTableAE072EFA
+      SubnetId:
+        Ref: ordersvpcPublicSubnetSubnet1Subnet7A589D1B
+    Metadata:
+      aws:cdk:path: cqrsOnAws/orders-vpc/PublicSubnetSubnet1/RouteTableAssociation
+  ordersvpcPublicSubnetSubnet1DefaultRoute654D2E02:
+    Type: AWS::EC2::Route
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId:
+        Ref: ordersvpcIGW68AB00A2
+      RouteTableId:
+        Ref: ordersvpcPublicSubnetSubnet1RouteTableAE072EFA
+    DependsOn:
+      - ordersvpcVPCGW1AD53677
+    Metadata:
+      aws:cdk:path: cqrsOnAws/orders-vpc/PublicSubnetSubnet1/DefaultRoute
+  ordersvpcPublicSubnetSubnet1EIP3E93CBBD:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+      Tags:
+        - Key: Name
+          Value: cqrsOnAws/orders-vpc/PublicSubnetSubnet1
+    Metadata:
+      aws:cdk:path: cqrsOnAws/orders-vpc/PublicSubnetSubnet1/EIP
+  ordersvpcPublicSubnetSubnet1NATGateway060BE6BD:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      AllocationId:
+        Fn::GetAtt:
+          - ordersvpcPublicSubnetSubnet1EIP3E93CBBD
+          - AllocationId
+      SubnetId:
+        Ref: ordersvpcPublicSubnetSubnet1Subnet7A589D1B
+      Tags:
+        - Key: Name
+          Value: cqrsOnAws/orders-vpc/PublicSubnetSubnet1
+    DependsOn:
+      - ordersvpcPublicSubnetSubnet1DefaultRoute654D2E02
+      - ordersvpcPublicSubnetSubnet1RouteTableAssociationCFF69FF6
+    Metadata:
+      aws:cdk:path: cqrsOnAws/orders-vpc/PublicSubnetSubnet1/NATGateway
+  ordersvpcPublicSubnetSubnet2Subnet9B4004EA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone:
+        Fn::Select:
+          - 1
+          - Fn::GetAZs: ""
+      CidrBlock: 10.0.1.0/24
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: aws-cdk:subnet-name
+          Value: PublicSubnet
+        - Key: aws-cdk:subnet-type
+          Value: Public
+        - Key: Name
+          Value: cqrsOnAws/orders-vpc/PublicSubnetSubnet2
+      VpcId:
+        Ref: ordersvpc02F53E79
+    Metadata:
+      aws:cdk:path: cqrsOnAws/orders-vpc/PublicSubnetSubnet2/Subnet
+  ordersvpcPublicSubnetSubnet2RouteTable6B917A5F:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      Tags:
+        - Key: Name
+          Value: cqrsOnAws/orders-vpc/PublicSubnetSubnet2
+      VpcId:
+        Ref: ordersvpc02F53E79
+    Metadata:
+      aws:cdk:path: cqrsOnAws/orders-vpc/PublicSubnetSubnet2/RouteTable
+  ordersvpcPublicSubnetSubnet2RouteTableAssociation2B05F4E0:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: ordersvpcPublicSubnetSubnet2RouteTable6B917A5F
+      SubnetId:
+        Ref: ordersvpcPublicSubnetSubnet2Subnet9B4004EA
+    Metadata:
+      aws:cdk:path: cqrsOnAws/orders-vpc/PublicSubnetSubnet2/RouteTableAssociation
+  ordersvpcPublicSubnetSubnet2DefaultRoute2CD1D4BC:
+    Type: AWS::EC2::Route
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId:
+        Ref: ordersvpcIGW68AB00A2
+      RouteTableId:
+        Ref: ordersvpcPublicSubnetSubnet2RouteTable6B917A5F
+    DependsOn:
+      - ordersvpcVPCGW1AD53677
+    Metadata:
+      aws:cdk:path: cqrsOnAws/orders-vpc/PublicSubnetSubnet2/DefaultRoute
+  ordersvpcPrivateSubnetASubnet1Subnet9DCF4A03:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone:
+        Fn::Select:
+          - 0
+          - Fn::GetAZs: ""
+      CidrBlock: 10.0.2.0/24
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: aws-cdk:subnet-name
+          Value: PrivateSubnetA
+        - Key: aws-cdk:subnet-type
+          Value: Private
+        - Key: Name
+          Value: cqrsOnAws/orders-vpc/PrivateSubnetASubnet1
+      VpcId:
+        Ref: ordersvpc02F53E79
+    Metadata:
+      aws:cdk:path: cqrsOnAws/orders-vpc/PrivateSubnetASubnet1/Subnet
+  ordersvpcPrivateSubnetASubnet1RouteTable32C3C452:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      Tags:
+        - Key: Name
+          Value: cqrsOnAws/orders-vpc/PrivateSubnetASubnet1
+      VpcId:
+        Ref: ordersvpc02F53E79
+    Metadata:
+      aws:cdk:path: cqrsOnAws/orders-vpc/PrivateSubnetASubnet1/RouteTable
+  ordersvpcPrivateSubnetASubnet1RouteTableAssociation152EEC04:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: ordersvpcPrivateSubnetASubnet1RouteTable32C3C452
+      SubnetId:
+        Ref: ordersvpcPrivateSubnetASubnet1Subnet9DCF4A03
+    Metadata:
+      aws:cdk:path: cqrsOnAws/orders-vpc/PrivateSubnetASubnet1/RouteTableAssociation
+  ordersvpcPrivateSubnetASubnet1DefaultRouteF4785B86:
+    Type: AWS::EC2::Route
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId:
+        Ref: ordersvpcPublicSubnetSubnet1NATGateway060BE6BD
+      RouteTableId:
+        Ref: ordersvpcPrivateSubnetASubnet1RouteTable32C3C452
+    Metadata:
+      aws:cdk:path: cqrsOnAws/orders-vpc/PrivateSubnetASubnet1/DefaultRoute
+  ordersvpcPrivateSubnetASubnet2SubnetFD60E2DB:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone:
+        Fn::Select:
+          - 1
+          - Fn::GetAZs: ""
+      CidrBlock: 10.0.3.0/24
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: aws-cdk:subnet-name
+          Value: PrivateSubnetA
+        - Key: aws-cdk:subnet-type
+          Value: Private
+        - Key: Name
+          Value: cqrsOnAws/orders-vpc/PrivateSubnetASubnet2
+      VpcId:
+        Ref: ordersvpc02F53E79
+    Metadata:
+      aws:cdk:path: cqrsOnAws/orders-vpc/PrivateSubnetASubnet2/Subnet
+  ordersvpcPrivateSubnetASubnet2RouteTableE4F52AED:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      Tags:
+        - Key: Name
+          Value: cqrsOnAws/orders-vpc/PrivateSubnetASubnet2
+      VpcId:
+        Ref: ordersvpc02F53E79
+    Metadata:
+      aws:cdk:path: cqrsOnAws/orders-vpc/PrivateSubnetASubnet2/RouteTable
+  ordersvpcPrivateSubnetASubnet2RouteTableAssociation56C60842:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: ordersvpcPrivateSubnetASubnet2RouteTableE4F52AED
+      SubnetId:
+        Ref: ordersvpcPrivateSubnetASubnet2SubnetFD60E2DB
+    Metadata:
+      aws:cdk:path: cqrsOnAws/orders-vpc/PrivateSubnetASubnet2/RouteTableAssociation
+  ordersvpcPrivateSubnetASubnet2DefaultRoute6AFEFBFA:
+    Type: AWS::EC2::Route
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId:
+        Ref: ordersvpcPublicSubnetSubnet1NATGateway060BE6BD
+      RouteTableId:
+        Ref: ordersvpcPrivateSubnetASubnet2RouteTableE4F52AED
+    Metadata:
+      aws:cdk:path: cqrsOnAws/orders-vpc/PrivateSubnetASubnet2/DefaultRoute
+  ordersvpcIGW68AB00A2:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: cqrsOnAws/orders-vpc
+    Metadata:
+      aws:cdk:path: cqrsOnAws/orders-vpc/IGW
+  ordersvpcVPCGW1AD53677:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      InternetGatewayId:
+        Ref: ordersvpcIGW68AB00A2
+      VpcId:
+        Ref: ordersvpc02F53E79
+    Metadata:
+      aws:cdk:path: cqrsOnAws/orders-vpc/VPCGW
+  ordersvpcRestrictDefaultSecurityGroupCustomResource8B932381:
+    Type: Custom::VpcRestrictDefaultSG
+    Properties:
+      ServiceToken:
+        Fn::GetAtt:
+          - CustomVpcRestrictDefaultSGCustomResourceProviderHandlerDC833E5E
+          - Arn
+      DefaultSecurityGroupId:
+        Fn::GetAtt:
+          - ordersvpc02F53E79
+          - DefaultSecurityGroup
+      Account:
+        Ref: AWS::AccountId
+    UpdateReplacePolicy: Delete
+    DeletionPolicy: Delete
+    Metadata:
+      aws:cdk:path: cqrsOnAws/orders-vpc/RestrictDefaultSecurityGroupCustomResource/Default
+  ordersvpcCQRSvpcFlowLogIAMRoleE7519FFE:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: vpc-flow-logs.amazonaws.com
+        Version: "2012-10-17"
+      Tags:
+        - Key: Name
+          Value: cqrsOnAws/orders-vpc/CQRS-vpcFlowLog
+    Metadata:
+      aws:cdk:path: cqrsOnAws/orders-vpc/CQRS-vpcFlowLog/IAMRole/Resource
+  ordersvpcCQRSvpcFlowLogIAMRoleDefaultPolicy5732FB1E:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action:
+              - logs:CreateLogStream
+              - logs:DescribeLogStreams
+              - logs:PutLogEvents
+            Effect: Allow
+            Resource:
+              Fn::GetAtt:
+                - ordersvpcCQRSvpcFlowLogLogGroup80DA9C17
+                - Arn
+          - Action: iam:PassRole
+            Effect: Allow
+            Resource:
+              Fn::GetAtt:
+                - ordersvpcCQRSvpcFlowLogIAMRoleE7519FFE
+                - Arn
+        Version: "2012-10-17"
+      PolicyName: ordersvpcCQRSvpcFlowLogIAMRoleDefaultPolicy5732FB1E
+      Roles:
+        - Ref: ordersvpcCQRSvpcFlowLogIAMRoleE7519FFE
+    Metadata:
+      aws:cdk:path: cqrsOnAws/orders-vpc/CQRS-vpcFlowLog/IAMRole/DefaultPolicy/Resource
+  ordersvpcCQRSvpcFlowLogLogGroup80DA9C17:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      RetentionInDays: 731
+      Tags:
+        - Key: Name
+          Value: cqrsOnAws/orders-vpc/CQRS-vpcFlowLog
+    UpdateReplacePolicy: Retain
+    DeletionPolicy: Retain
+    Metadata:
+      aws:cdk:path: cqrsOnAws/orders-vpc/CQRS-vpcFlowLog/LogGroup/Resource
+  ordersvpcCQRSvpcFlowLog32683F6A:
+    Type: AWS::EC2::FlowLog
+    Properties:
+      DeliverLogsPermissionArn:
+        Fn::GetAtt:
+          - ordersvpcCQRSvpcFlowLogIAMRoleE7519FFE
+          - Arn
+      LogDestinationType: cloud-watch-logs
+      LogGroupName:
+        Ref: ordersvpcCQRSvpcFlowLogLogGroup80DA9C17
+      ResourceId:
+        Ref: ordersvpc02F53E79
+      ResourceType: VPC
+      Tags:
+        - Key: Name
+          Value: cqrsOnAws/orders-vpc/CQRS-vpcFlowLog
+      TrafficType: ALL
+    Metadata:
+      aws:cdk:path: cqrsOnAws/orders-vpc/CQRS-vpcFlowLog/FlowLog
+  ordersvpcsqsendpoint6AF5C055:
+    Type: AWS::EC2::VPCEndpoint
+    Properties:
+      PrivateDnsEnabled: true
+      SecurityGroupIds:
+        - Fn::GetAtt:
+            - dbsgCE6973BD
+            - GroupId
+      ServiceName:
+        Fn::Join:
+          - ""
+          - - com.amazonaws.
+            - Ref: AWS::Region
+            - .sqs
+      SubnetIds:
+        - Ref: ordersvpcPrivateSubnetASubnet1Subnet9DCF4A03
+        - Ref: ordersvpcPrivateSubnetASubnet2SubnetFD60E2DB
+      VpcEndpointType: Interface
+      VpcId:
+        Ref: ordersvpc02F53E79
+    Metadata:
+      aws:cdk:path: cqrsOnAws/orders-vpc/sqs-endpoint/Resource
+  ordersvpcsecretsmanagerendpointE8DC7FE4:
+    Type: AWS::EC2::VPCEndpoint
+    Properties:
+      PrivateDnsEnabled: true
+      SecurityGroupIds:
+        - Fn::GetAtt:
+            - dbsgCE6973BD
+            - GroupId
+      ServiceName:
+        Fn::Join:
+          - ""
+          - - com.amazonaws.
+            - Ref: AWS::Region
+            - .secretsmanager
+      SubnetIds:
+        - Ref: ordersvpcPrivateSubnetASubnet1Subnet9DCF4A03
+        - Ref: ordersvpcPrivateSubnetASubnet2SubnetFD60E2DB
+      VpcEndpointType: Interface
+      VpcId:
+        Ref: ordersvpc02F53E79
+    Metadata:
+      aws:cdk:path: cqrsOnAws/orders-vpc/secrets-manager-endpoint/Resource
+  CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+      ManagedPolicyArns:
+        - Fn::Sub: arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: Inline
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - ec2:AuthorizeSecurityGroupIngress
+                  - ec2:AuthorizeSecurityGroupEgress
+                  - ec2:RevokeSecurityGroupIngress
+                  - ec2:RevokeSecurityGroupEgress
+                Resource:
+                  - Fn::Join:
+                      - ""
+                      - - "arn:"
+                        - Ref: AWS::Partition
+                        - ":ec2:"
+                        - Ref: AWS::Region
+                        - ":"
+                        - Ref: AWS::AccountId
+                        - :security-group/
+                        - Fn::GetAtt:
+                            - ordersvpc02F53E79
+                            - DefaultSecurityGroup
+    Metadata:
+      aws:cdk:path: cqrsOnAws/Custom::VpcRestrictDefaultSGCustomResourceProvider/Role
+  CustomVpcRestrictDefaultSGCustomResourceProviderHandlerDC833E5E:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket:
+          Fn::Sub: cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}
+        S3Key: dd5711540f04e06aa955d7f4862fc04e8cdea464cb590dae91ed2976bb78098e.zip
+      Timeout: 900
+      MemorySize: 128
+      Handler: __entrypoint__.handler
+      Role:
+        Fn::GetAtt:
+          - CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0
+          - Arn
+      Runtime: nodejs18.x
+      Description: Lambda function for removing all inbound/outbound rules from the VPC default security group
+    DependsOn:
+      - CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0
+    Metadata:
+      aws:cdk:path: cqrsOnAws/Custom::VpcRestrictDefaultSGCustomResourceProvider/Handler
+      aws:asset:path: asset.dd5711540f04e06aa955d7f4862fc04e8cdea464cb590dae91ed2976bb78098e
+      aws:asset:property: Code
+  dbsgCE6973BD:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: cqrsOnAws/db-sg
+      SecurityGroupEgress:
+        - CidrIp: 0.0.0.0/0
+          Description: Allow all outbound traffic by default
+          IpProtocol: "-1"
+      SecurityGroupIngress:
+        - CidrIp:
+            Fn::GetAtt:
+              - ordersvpc02F53E79
+              - CidrBlock
+          Description:
+            Fn::Join:
+              - ""
+              - - "from "
+                - Fn::GetAtt:
+                    - ordersvpc02F53E79
+                    - CidrBlock
+                - :443
+          FromPort: 443
+          IpProtocol: tcp
+          ToPort: 443
+        - Description:
+            Fn::Join:
+              - ""
+              - - "from "
+                - Fn::GetAtt:
+                    - OrderEventTableCleanerSGB75E0EA2
+                    - GroupId
+                - :5432
+          FromPort: 5432
+          IpProtocol: tcp
+          SourceSecurityGroupId:
+            Fn::GetAtt:
+              - OrderEventTableCleanerSGB75E0EA2
+              - GroupId
+          ToPort: 5432
+        - Description:
+            Fn::Join:
+              - ""
+              - - "from "
+                - Fn::GetAtt:
+                    - OrdersMSKSG7E75BB8A
+                    - GroupId
+                - :5432
+          FromPort: 5432
+          IpProtocol: tcp
+          SourceSecurityGroupId:
+            Fn::GetAtt:
+              - OrdersMSKSG7E75BB8A
+              - GroupId
+          ToPort: 5432
+        - Description:
+            Fn::Join:
+              - ""
+              - - "from "
+                - Fn::GetAtt:
+                    - databasecreatorsg6E6C8DB7
+                    - GroupId
+                - :5432
+          FromPort: 5432
+          IpProtocol: tcp
+          SourceSecurityGroupId:
+            Fn::GetAtt:
+              - databasecreatorsg6E6C8DB7
+              - GroupId
+          ToPort: 5432
+        - Description:
+            Fn::Join:
+              - ""
+              - - "from "
+                - Fn::GetAtt:
+                    - orderreceiversg12A7041A
+                    - GroupId
+                - :5432
+          FromPort: 5432
+          IpProtocol: tcp
+          SourceSecurityGroupId:
+            Fn::GetAtt:
+              - orderreceiversg12A7041A
+              - GroupId
+          ToPort: 5432
+      VpcId:
+        Ref: ordersvpc02F53E79
+    Metadata:
+      aws:cdk:path: cqrsOnAws/db-sg/Resource
+  LambdaToRedisSG3183E45E:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: cqrsOnAws/LambdaToRedisSG
+      SecurityGroupEgress:
+        - CidrIp:
+            Fn::GetAtt:
+              - ordersvpc02F53E79
+              - CidrBlock
+          Description:
+            Fn::Join:
+              - ""
+              - - "from "
+                - Fn::GetAtt:
+                    - ordersvpc02F53E79
+                    - CidrBlock
+                - :6379
+          FromPort: 6379
+          IpProtocol: tcp
+          ToPort: 6379
+        - CidrIp:
+            Fn::GetAtt:
+              - ordersvpc02F53E79
+              - CidrBlock
+          Description:
+            Fn::Join:
+              - ""
+              - - "from "
+                - Fn::GetAtt:
+                    - ordersvpc02F53E79
+                    - CidrBlock
+                - :443
+          FromPort: 443
+          IpProtocol: tcp
+          ToPort: 443
+      VpcId:
+        Ref: ordersvpc02F53E79
+    Metadata:
+      aws:cdk:path: cqrsOnAws/LambdaToRedisSG/Resource
+  redissg0E2F64CD:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow all inbound, but only from the source privateserversg, ordereventredispersistersg, and clientretrieversg
+      SecurityGroupEgress:
+        - CidrIp: 255.255.255.255/32
+          Description: Disallow all traffic
+          FromPort: 252
+          IpProtocol: icmp
+          ToPort: 86
+      SecurityGroupIngress:
+        - Description:
+            Fn::Join:
+              - ""
+              - - "from "
+                - Fn::GetAtt:
+                    - LambdaToRedisSG3183E45E
+                    - GroupId
+                - :6379
+          FromPort: 6379
+          IpProtocol: tcp
+          SourceSecurityGroupId:
+            Fn::GetAtt:
+              - LambdaToRedisSG3183E45E
+              - GroupId
+          ToPort: 6379
+        - Description:
+            Fn::Join:
+              - ""
+              - - "from "
+                - Fn::GetAtt:
+                    - ClientRetrieverSGB1AA3446
+                    - GroupId
+                - :6379
+          FromPort: 6379
+          IpProtocol: tcp
+          SourceSecurityGroupId:
+            Fn::GetAtt:
+              - ClientRetrieverSGB1AA3446
+              - GroupId
+          ToPort: 6379
+      VpcId:
+        Ref: ordersvpc02F53E79
+    Metadata:
+      aws:cdk:path: cqrsOnAws/redis-sg/Resource
+  orderreceiversg12A7041A:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: cqrsOnAws/order-receiver-sg
+      SecurityGroupEgress:
+        - CidrIp: 0.0.0.0/0
+          Description: Allow all outbound traffic by default
+          IpProtocol: "-1"
+      VpcId:
+        Ref: ordersvpc02F53E79
+    Metadata:
+      aws:cdk:path: cqrsOnAws/order-receiver-sg/Resource
+  ClientRetrieverSGB1AA3446:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: cqrsOnAws/ClientRetrieverSG
+      SecurityGroupEgress:
+        - CidrIp:
+            Fn::GetAtt:
+              - ordersvpc02F53E79
+              - CidrBlock
+          Description:
+            Fn::Join:
+              - ""
+              - - "from "
+                - Fn::GetAtt:
+                    - ordersvpc02F53E79
+                    - CidrBlock
+                - :6379
+          FromPort: 6379
+          IpProtocol: tcp
+          ToPort: 6379
+      VpcId:
+        Ref: ordersvpc02F53E79
+    Metadata:
+      aws:cdk:path: cqrsOnAws/ClientRetrieverSG/Resource
+  OrderEventAdapterSG3299934E:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: cqrsOnAws/OrderEventAdapterSG
+      SecurityGroupEgress:
+        - CidrIp: 255.255.255.255/32
+          Description: Disallow all traffic
+          FromPort: 252
+          IpProtocol: icmp
+          ToPort: 86
+      VpcId:
+        Ref: ordersvpc02F53E79
+    Metadata:
+      aws:cdk:path: cqrsOnAws/OrderEventAdapterSG/Resource
+  databasecreatorsg6E6C8DB7:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Security Group that grant a lambda that runs inside a VPC to access RDS Database and create schemas and tables
+      SecurityGroupEgress:
+        - CidrIp: 0.0.0.0/0
+          Description: Allow all outbound traffic by default
+          IpProtocol: "-1"
+      VpcId:
+        Ref: ordersvpc02F53E79
+    Metadata:
+      aws:cdk:path: cqrsOnAws/database-creator-sg/Resource
+  OrdersMSKSG7E75BB8A:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: cqrsOnAws/OrdersMSKSG
+      SecurityGroupEgress:
+        - CidrIp: 0.0.0.0/0
+          Description: Allow all outbound traffic by default
+          IpProtocol: "-1"
+      SecurityGroupIngress:
+        - CidrIp:
+            Fn::GetAtt:
+              - ordersvpc02F53E79
+              - CidrBlock
+          Description:
+            Fn::Join:
+              - ""
+              - - "from "
+                - Fn::GetAtt:
+                    - ordersvpc02F53E79
+                    - CidrBlock
+                - :9098
+          FromPort: 9098
+          IpProtocol: tcp
+          ToPort: 9098
+      VpcId:
+        Ref: ordersvpc02F53E79
+    Metadata:
+      aws:cdk:path: cqrsOnAws/OrdersMSKSG/Resource
+  LambdaAuthorizerSG68C76E56:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: cqrsOnAws/LambdaAuthorizerSG
+      SecurityGroupEgress:
+        - CidrIp: 0.0.0.0/0
+          Description: Allow all outbound traffic by default
+          IpProtocol: "-1"
+      VpcId:
+        Ref: ordersvpc02F53E79
+    Metadata:
+      aws:cdk:path: cqrsOnAws/LambdaAuthorizerSG/Resource
+  OrderEventTableCleanerSGB75E0EA2:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: cqrsOnAws/OrderEventTableCleanerSG
+      SecurityGroupEgress:
+        - CidrIp: 0.0.0.0/0
+          Description: Allow all outbound traffic by default
+          IpProtocol: "-1"
+      VpcId:
+        Ref: ordersvpc02F53E79
+    Metadata:
+      aws:cdk:path: cqrsOnAws/OrderEventTableCleanerSG/Resource
+  ordersdbchangesclustercredentials1BE6A453:
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      GenerateSecretString:
+        ExcludePunctuation: true
+        GenerateStringKey: password
+        IncludeSpace: false
+        SecretStringTemplate: '{"username": "zdbg0ory5zzh1fi"}'
+    UpdateReplacePolicy: Delete
+    DeletionPolicy: Delete
+    Metadata:
+      aws:cdk:path: cqrsOnAws/orders-db-changes-cluster-credentials/Resource
+  cdcenabledpostgresgroup4B402EF9:
+    Type: AWS::RDS::DBClusterParameterGroup
+    Properties:
+      Description: Cluster parameter group for aurora-postgresql15
+      Family: aurora-postgresql15
+      Parameters:
+        rds.logical_replication: "1"
+    Metadata:
+      aws:cdk:path: cqrsOnAws/cdc-enabled-postgres-group/Resource
+  ordersSubnets6EFA6545:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupDescription: Subnets for orders database
+      SubnetIds:
+        - Ref: ordersvpcPrivateSubnetASubnet1Subnet9DCF4A03
+        - Ref: ordersvpcPrivateSubnetASubnet2SubnetFD60E2DB
+    DependsOn:
+      - ordersdbchangesclustercredentials1BE6A453
+      - ordersvpcCQRSvpcFlowLog32683F6A
+      - ordersvpcCQRSvpcFlowLogIAMRoleDefaultPolicy5732FB1E
+      - ordersvpcCQRSvpcFlowLogIAMRoleE7519FFE
+      - ordersvpcCQRSvpcFlowLogLogGroup80DA9C17
+      - ordersvpcIGW68AB00A2
+      - ordersvpcPrivateSubnetASubnet1DefaultRouteF4785B86
+      - ordersvpcPrivateSubnetASubnet1RouteTable32C3C452
+      - ordersvpcPrivateSubnetASubnet1RouteTableAssociation152EEC04
+      - ordersvpcPrivateSubnetASubnet1Subnet9DCF4A03
+      - ordersvpcPrivateSubnetASubnet2DefaultRoute6AFEFBFA
+      - ordersvpcPrivateSubnetASubnet2RouteTableE4F52AED
+      - ordersvpcPrivateSubnetASubnet2RouteTableAssociation56C60842
+      - ordersvpcPrivateSubnetASubnet2SubnetFD60E2DB
+      - ordersvpcPublicSubnetSubnet1DefaultRoute654D2E02
+      - ordersvpcPublicSubnetSubnet1EIP3E93CBBD
+      - ordersvpcPublicSubnetSubnet1NATGateway060BE6BD
+      - ordersvpcPublicSubnetSubnet1RouteTableAE072EFA
+      - ordersvpcPublicSubnetSubnet1RouteTableAssociationCFF69FF6
+      - ordersvpcPublicSubnetSubnet1Subnet7A589D1B
+      - ordersvpcPublicSubnetSubnet2DefaultRoute2CD1D4BC
+      - ordersvpcPublicSubnetSubnet2RouteTable6B917A5F
+      - ordersvpcPublicSubnetSubnet2RouteTableAssociation2B05F4E0
+      - ordersvpcPublicSubnetSubnet2Subnet9B4004EA
+      - ordersvpc02F53E79
+      - ordersvpcRestrictDefaultSecurityGroupCustomResource8B932381
+      - ordersvpcsecretsmanagerendpointE8DC7FE4
+      - ordersvpcsqsendpoint6AF5C055
+      - ordersvpcVPCGW1AD53677
+    Metadata:
+      aws:cdk:path: cqrsOnAws/orders/Subnets/Default
+  orders46FA7C19:
+    Type: AWS::RDS::DBCluster
+    Properties:
+      CopyTagsToSnapshot: true
+      DBClusterParameterGroupName:
+        Ref: cdcenabledpostgresgroup4B402EF9
+      DBSubnetGroupName:
+        Ref: ordersSubnets6EFA6545
+      DatabaseName: orders
+      Engine: aurora-postgresql
+      EngineVersion: "15.3"
+      MasterUserPassword:
+        Fn::Join:
+          - ""
+          - - "{{resolve:secretsmanager:"
+            - Ref: ordersdbchangesclustercredentials1BE6A453
+            - :SecretString:password::}}
+      MasterUsername: zdbg0ory5zzh1fi
+      Port: 5432
+      StorageEncrypted: true
+      VpcSecurityGroupIds:
+        - Fn::GetAtt:
+            - dbsgCE6973BD
+            - GroupId
+    DependsOn:
+      - ordersdbchangesclustercredentials1BE6A453
+      - ordersvpcCQRSvpcFlowLog32683F6A
+      - ordersvpcCQRSvpcFlowLogIAMRoleDefaultPolicy5732FB1E
+      - ordersvpcCQRSvpcFlowLogIAMRoleE7519FFE
+      - ordersvpcCQRSvpcFlowLogLogGroup80DA9C17
+      - ordersvpcIGW68AB00A2
+      - ordersvpcPrivateSubnetASubnet1DefaultRouteF4785B86
+      - ordersvpcPrivateSubnetASubnet1RouteTable32C3C452
+      - ordersvpcPrivateSubnetASubnet1RouteTableAssociation152EEC04
+      - ordersvpcPrivateSubnetASubnet1Subnet9DCF4A03
+      - ordersvpcPrivateSubnetASubnet2DefaultRoute6AFEFBFA
+      - ordersvpcPrivateSubnetASubnet2RouteTableE4F52AED
+      - ordersvpcPrivateSubnetASubnet2RouteTableAssociation56C60842
+      - ordersvpcPrivateSubnetASubnet2SubnetFD60E2DB
+      - ordersvpcPublicSubnetSubnet1DefaultRoute654D2E02
+      - ordersvpcPublicSubnetSubnet1EIP3E93CBBD
+      - ordersvpcPublicSubnetSubnet1NATGateway060BE6BD
+      - ordersvpcPublicSubnetSubnet1RouteTableAE072EFA
+      - ordersvpcPublicSubnetSubnet1RouteTableAssociationCFF69FF6
+      - ordersvpcPublicSubnetSubnet1Subnet7A589D1B
+      - ordersvpcPublicSubnetSubnet2DefaultRoute2CD1D4BC
+      - ordersvpcPublicSubnetSubnet2RouteTable6B917A5F
+      - ordersvpcPublicSubnetSubnet2RouteTableAssociation2B05F4E0
+      - ordersvpcPublicSubnetSubnet2Subnet9B4004EA
+      - ordersvpc02F53E79
+      - ordersvpcRestrictDefaultSecurityGroupCustomResource8B932381
+      - ordersvpcsecretsmanagerendpointE8DC7FE4
+      - ordersvpcsqsendpoint6AF5C055
+      - ordersvpcVPCGW1AD53677
+    UpdateReplacePolicy: Snapshot
+    DeletionPolicy: Snapshot
+    Metadata:
+      aws:cdk:path: cqrsOnAws/orders/Resource
+  orderswriterE1B5DC50:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      DBClusterIdentifier:
+        Ref: orders46FA7C19
+      DBInstanceClass: db.t3.medium
+      Engine: aurora-postgresql
+      PromotionTier: 0
+      PubliclyAccessible: false
+    DependsOn:
+      - ordersdbchangesclustercredentials1BE6A453
+      - ordersvpcCQRSvpcFlowLog32683F6A
+      - ordersvpcCQRSvpcFlowLogIAMRoleDefaultPolicy5732FB1E
+      - ordersvpcCQRSvpcFlowLogIAMRoleE7519FFE
+      - ordersvpcCQRSvpcFlowLogLogGroup80DA9C17
+      - ordersvpcIGW68AB00A2
+      - ordersvpcPrivateSubnetASubnet1DefaultRouteF4785B86
+      - ordersvpcPrivateSubnetASubnet1RouteTable32C3C452
+      - ordersvpcPrivateSubnetASubnet1RouteTableAssociation152EEC04
+      - ordersvpcPrivateSubnetASubnet1Subnet9DCF4A03
+      - ordersvpcPrivateSubnetASubnet2DefaultRoute6AFEFBFA
+      - ordersvpcPrivateSubnetASubnet2RouteTableE4F52AED
+      - ordersvpcPrivateSubnetASubnet2RouteTableAssociation56C60842
+      - ordersvpcPrivateSubnetASubnet2SubnetFD60E2DB
+      - ordersvpcPublicSubnetSubnet1DefaultRoute654D2E02
+      - ordersvpcPublicSubnetSubnet1EIP3E93CBBD
+      - ordersvpcPublicSubnetSubnet1NATGateway060BE6BD
+      - ordersvpcPublicSubnetSubnet1RouteTableAE072EFA
+      - ordersvpcPublicSubnetSubnet1RouteTableAssociationCFF69FF6
+      - ordersvpcPublicSubnetSubnet1Subnet7A589D1B
+      - ordersvpcPublicSubnetSubnet2DefaultRoute2CD1D4BC
+      - ordersvpcPublicSubnetSubnet2RouteTable6B917A5F
+      - ordersvpcPublicSubnetSubnet2RouteTableAssociation2B05F4E0
+      - ordersvpcPublicSubnetSubnet2Subnet9B4004EA
+      - ordersvpc02F53E79
+      - ordersvpcRestrictDefaultSecurityGroupCustomResource8B932381
+      - ordersvpcsecretsmanagerendpointE8DC7FE4
+      - ordersvpcsqsendpoint6AF5C055
+      - ordersvpcVPCGW1AD53677
+    UpdateReplacePolicy: Delete
+    DeletionPolicy: Delete
+    Metadata:
+      aws:cdk:path: cqrsOnAws/orders/writer/Resource
+  ordersreader31326503:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      DBClusterIdentifier:
+        Ref: orders46FA7C19
+      DBInstanceClass: db.t3.medium
+      Engine: aurora-postgresql
+      PromotionTier: 2
+      PubliclyAccessible: false
+    DependsOn:
+      - ordersdbchangesclustercredentials1BE6A453
+      - ordersvpcCQRSvpcFlowLog32683F6A
+      - ordersvpcCQRSvpcFlowLogIAMRoleDefaultPolicy5732FB1E
+      - ordersvpcCQRSvpcFlowLogIAMRoleE7519FFE
+      - ordersvpcCQRSvpcFlowLogLogGroup80DA9C17
+      - ordersvpcIGW68AB00A2
+      - ordersvpcPrivateSubnetASubnet1DefaultRouteF4785B86
+      - ordersvpcPrivateSubnetASubnet1RouteTable32C3C452
+      - ordersvpcPrivateSubnetASubnet1RouteTableAssociation152EEC04
+      - ordersvpcPrivateSubnetASubnet1Subnet9DCF4A03
+      - ordersvpcPrivateSubnetASubnet2DefaultRoute6AFEFBFA
+      - ordersvpcPrivateSubnetASubnet2RouteTableE4F52AED
+      - ordersvpcPrivateSubnetASubnet2RouteTableAssociation56C60842
+      - ordersvpcPrivateSubnetASubnet2SubnetFD60E2DB
+      - ordersvpcPublicSubnetSubnet1DefaultRoute654D2E02
+      - ordersvpcPublicSubnetSubnet1EIP3E93CBBD
+      - ordersvpcPublicSubnetSubnet1NATGateway060BE6BD
+      - ordersvpcPublicSubnetSubnet1RouteTableAE072EFA
+      - ordersvpcPublicSubnetSubnet1RouteTableAssociationCFF69FF6
+      - ordersvpcPublicSubnetSubnet1Subnet7A589D1B
+      - ordersvpcPublicSubnetSubnet2DefaultRoute2CD1D4BC
+      - ordersvpcPublicSubnetSubnet2RouteTable6B917A5F
+      - ordersvpcPublicSubnetSubnet2RouteTableAssociation2B05F4E0
+      - ordersvpcPublicSubnetSubnet2Subnet9B4004EA
+      - ordersvpc02F53E79
+      - ordersvpcRestrictDefaultSecurityGroupCustomResource8B932381
+      - ordersvpcsecretsmanagerendpointE8DC7FE4
+      - ordersvpcsqsendpoint6AF5C055
+      - ordersvpcVPCGW1AD53677
+    UpdateReplacePolicy: Delete
+    DeletionPolicy: Delete
+    Metadata:
+      aws:cdk:path: cqrsOnAws/orders/reader/Resource
+  Elasticachesubnetgroup:
+    Type: AWS::ElastiCache::SubnetGroup
+    Properties:
+      Description: subnetgroup
+      SubnetIds:
+        - Ref: ordersvpcPrivateSubnetASubnet1Subnet9DCF4A03
+        - Ref: ordersvpcPrivateSubnetASubnet2SubnetFD60E2DB
+    Metadata:
+      aws:cdk:path: cqrsOnAws/Elasticache_subnet_group
+  ordersdbcache:
+    Type: AWS::ElastiCache::CacheCluster
+    Properties:
+      CacheNodeType: cache.t4g.micro
+      CacheSubnetGroupName:
+        Ref: Elasticachesubnetgroup
+      Engine: redis
+      NumCacheNodes: 1
+      VpcSecurityGroupIds:
+        - Fn::GetAtt:
+            - redissg0E2F64CD
+            - GroupId
+    DependsOn:
+      - ordersvpcCQRSvpcFlowLog32683F6A
+      - ordersvpcCQRSvpcFlowLogIAMRoleDefaultPolicy5732FB1E
+      - ordersvpcCQRSvpcFlowLogIAMRoleE7519FFE
+      - ordersvpcCQRSvpcFlowLogLogGroup80DA9C17
+      - ordersvpcIGW68AB00A2
+      - ordersvpcPrivateSubnetASubnet1DefaultRouteF4785B86
+      - ordersvpcPrivateSubnetASubnet1RouteTable32C3C452
+      - ordersvpcPrivateSubnetASubnet1RouteTableAssociation152EEC04
+      - ordersvpcPrivateSubnetASubnet1Subnet9DCF4A03
+      - ordersvpcPrivateSubnetASubnet2DefaultRoute6AFEFBFA
+      - ordersvpcPrivateSubnetASubnet2RouteTableE4F52AED
+      - ordersvpcPrivateSubnetASubnet2RouteTableAssociation56C60842
+      - ordersvpcPrivateSubnetASubnet2SubnetFD60E2DB
+      - ordersvpcPublicSubnetSubnet1DefaultRoute654D2E02
+      - ordersvpcPublicSubnetSubnet1EIP3E93CBBD
+      - ordersvpcPublicSubnetSubnet1NATGateway060BE6BD
+      - ordersvpcPublicSubnetSubnet1RouteTableAE072EFA
+      - ordersvpcPublicSubnetSubnet1RouteTableAssociationCFF69FF6
+      - ordersvpcPublicSubnetSubnet1Subnet7A589D1B
+      - ordersvpcPublicSubnetSubnet2DefaultRoute2CD1D4BC
+      - ordersvpcPublicSubnetSubnet2RouteTable6B917A5F
+      - ordersvpcPublicSubnetSubnet2RouteTableAssociation2B05F4E0
+      - ordersvpcPublicSubnetSubnet2Subnet9B4004EA
+      - ordersvpc02F53E79
+      - ordersvpcRestrictDefaultSecurityGroupCustomResource8B932381
+      - ordersvpcsecretsmanagerendpointE8DC7FE4
+      - ordersvpcsqsendpoint6AF5C055
+      - ordersvpcVPCGW1AD53677
+    Metadata:
+      aws:cdk:path: cqrsOnAws/orders-db-cache
+  KafkaToRedisPersisterQueue6556068C:
+    Type: AWS::SQS::Queue
+    UpdateReplacePolicy: Delete
+    DeletionPolicy: Delete
+    Metadata:
+      aws:cdk:path: cqrsOnAws/KafkaToRedisPersisterQueue/Resource
+  KafkaToRedisPersisterQueuePolicyA6D4C208:
+    Type: AWS::SQS::QueuePolicy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action: sqs:SendMessage
+            Condition:
+              ArnEquals:
+                aws:SourceArn:
+                  Ref: OrderEventTopic83B92FDB
+            Effect: Allow
+            Principal:
+              Service: sns.amazonaws.com
+            Resource:
+              Fn::GetAtt:
+                - KafkaToRedisPersisterQueue6556068C
+                - Arn
+        Version: "2012-10-17"
+      Queues:
+        - Ref: KafkaToRedisPersisterQueue6556068C
+    Metadata:
+      aws:cdk:path: cqrsOnAws/KafkaToRedisPersisterQueue/Policy/Resource
+  KafkaToRedisPersisterQueuecqrsOnAwsOrderEventTopic922C9C488298DF1A:
+    Type: AWS::SNS::Subscription
+    Properties:
+      Endpoint:
+        Fn::GetAtt:
+          - KafkaToRedisPersisterQueue6556068C
+          - Arn
+      Protocol: sqs
+      TopicArn:
+        Ref: OrderEventTopic83B92FDB
+    DependsOn:
+      - KafkaToRedisPersisterQueuePolicyA6D4C208
+    Metadata:
+      aws:cdk:path: cqrsOnAws/KafkaToRedisPersisterQueue/cqrsOnAwsOrderEventTopic922C9C48/Resource
+  OrderEventTableCleaner786454C9:
+    Type: AWS::SQS::Queue
+    UpdateReplacePolicy: Delete
+    DeletionPolicy: Delete
+    Metadata:
+      aws:cdk:path: cqrsOnAws/OrderEventTableCleaner/Resource
+  OrderEventTopic83B92FDB:
+    Type: AWS::SNS::Topic
+    Metadata:
+      aws:cdk:path: cqrsOnAws/OrderEventTopic/Resource
+  CQRSLogsC87AA477:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      RetentionInDays: 731
+    UpdateReplacePolicy: Retain
+    DeletionPolicy: Retain
+    Metadata:
+      aws:cdk:path: cqrsOnAws/CQRSLogs/Resource
+  OrdersAPIE0C0828E:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      EndpointConfiguration:
+        Types:
+          - REGIONAL
+      Name: OrdersAPI
+    Metadata:
+      aws:cdk:path: cqrsOnAws/OrdersAPI/Resource
+  OrdersAPICloudWatchRole52367582:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: apigateway.amazonaws.com
+        Version: "2012-10-17"
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - :iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs
+    UpdateReplacePolicy: Retain
+    DeletionPolicy: Retain
+    Metadata:
+      aws:cdk:path: cqrsOnAws/OrdersAPI/CloudWatchRole/Resource
+  OrdersAPIAccount880DFF64:
+    Type: AWS::ApiGateway::Account
+    Properties:
+      CloudWatchRoleArn:
+        Fn::GetAtt:
+          - OrdersAPICloudWatchRole52367582
+          - Arn
+    DependsOn:
+      - OrdersAPIE0C0828E
+    UpdateReplacePolicy: Retain
+    DeletionPolicy: Retain
+    Metadata:
+      aws:cdk:path: cqrsOnAws/OrdersAPI/Account
+  OrdersAPIDeployment1AD9B453c197612c68d2c8f941bb6d1cc1cae2c9:
+    Type: AWS::ApiGateway::Deployment
+    Properties:
+      Description: Automatically created by the RestApi construct
+      RestApiId:
+        Ref: OrdersAPIE0C0828E
+    DependsOn:
+      - DefaultAuthorizerCA0170E0
+      - OrdersAPIclientsidclientGET2B183214
+      - OrdersAPIclientsidclientBAAEEED8
+      - OrdersAPIclients16517252
+      - OrdersAPIordersPOST7EBE8556
+      - OrdersAPIordersCD17E3B7
+    Metadata:
+      aws:cdk:path: cqrsOnAws/OrdersAPI/Deployment/Resource
+  OrdersAPIDeploymentStageprod454ADC6B:
+    Type: AWS::ApiGateway::Stage
+    Properties:
+      AccessLogSetting:
+        DestinationArn:
+          Fn::GetAtt:
+            - CQRSLogsC87AA477
+            - Arn
+        Format: '{"requestId":"$context.requestId","ip":"$context.identity.sourceIp","user":"$context.identity.user","caller":"$context.identity.caller","requestTime":"$context.requestTime","httpMethod":"$context.httpMethod","resourcePath":"$context.resourcePath","status":"$context.status"}'
+      DeploymentId:
+        Ref: OrdersAPIDeployment1AD9B453c197612c68d2c8f941bb6d1cc1cae2c9
+      RestApiId:
+        Ref: OrdersAPIE0C0828E
+      StageName: prod
+    DependsOn:
+      - OrdersAPIAccount880DFF64
+    Metadata:
+      aws:cdk:path: cqrsOnAws/OrdersAPI/DeploymentStage.prod/Resource
+  OrdersAPIclients16517252:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId:
+        Fn::GetAtt:
+          - OrdersAPIE0C0828E
+          - RootResourceId
+      PathPart: clients
+      RestApiId:
+        Ref: OrdersAPIE0C0828E
+    Metadata:
+      aws:cdk:path: cqrsOnAws/OrdersAPI/Default/clients/Resource
+  OrdersAPIclientsidclientBAAEEED8:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId:
+        Ref: OrdersAPIclients16517252
+      PathPart: "{id_client}"
+      RestApiId:
+        Ref: OrdersAPIE0C0828E
+    Metadata:
+      aws:cdk:path: cqrsOnAws/OrdersAPI/Default/clients/{id_client}/Resource
+  OrdersAPIclientsidclientGETApiPermissioncqrsOnAwsOrdersAPIE8B34156GETclientsidclient387649CE:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - ClientRetriever6C60E7B6
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: OrdersAPIE0C0828E
+            - /
+            - Ref: OrdersAPIDeploymentStageprod454ADC6B
+            - /GET/clients/*
+    Metadata:
+      aws:cdk:path: cqrsOnAws/OrdersAPI/Default/clients/{id_client}/GET/ApiPermission.cqrsOnAwsOrdersAPIE8B34156.GET..clients.{id_client}
+  OrdersAPIclientsidclientGETApiPermissionTestcqrsOnAwsOrdersAPIE8B34156GETclientsidclient3B7007B7:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - ClientRetriever6C60E7B6
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: OrdersAPIE0C0828E
+            - /test-invoke-stage/GET/clients/*
+    Metadata:
+      aws:cdk:path: cqrsOnAws/OrdersAPI/Default/clients/{id_client}/GET/ApiPermission.Test.cqrsOnAwsOrdersAPIE8B34156.GET..clients.{id_client}
+  OrdersAPIclientsidclientGET2B183214:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      AuthorizationType: CUSTOM
+      AuthorizerId:
+        Ref: DefaultAuthorizerCA0170E0
+      HttpMethod: GET
+      Integration:
+        IntegrationHttpMethod: POST
+        Type: AWS_PROXY
+        Uri:
+          Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - ":apigateway:"
+              - Ref: AWS::Region
+              - :lambda:path/2015-03-31/functions/
+              - Fn::GetAtt:
+                  - ClientRetriever6C60E7B6
+                  - Arn
+              - /invocations
+      MethodResponses:
+        - ResponseModels:
+            application/json: Empty
+          StatusCode: "200"
+      RequestParameters:
+        method.request.path.id_client: true
+      ResourceId:
+        Ref: OrdersAPIclientsidclientBAAEEED8
+      RestApiId:
+        Ref: OrdersAPIE0C0828E
+    Metadata:
+      aws:cdk:path: cqrsOnAws/OrdersAPI/Default/clients/{id_client}/GET/Resource
+  OrdersAPIordersCD17E3B7:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId:
+        Fn::GetAtt:
+          - OrdersAPIE0C0828E
+          - RootResourceId
+      PathPart: orders
+      RestApiId:
+        Ref: OrdersAPIE0C0828E
+    Metadata:
+      aws:cdk:path: cqrsOnAws/OrdersAPI/Default/orders/Resource
+  OrdersAPIordersPOSTApiPermissioncqrsOnAwsOrdersAPIE8B34156POSTordersA032115F:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - OrderReceiver98F077AB
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: OrdersAPIE0C0828E
+            - /
+            - Ref: OrdersAPIDeploymentStageprod454ADC6B
+            - /POST/orders
+    Metadata:
+      aws:cdk:path: cqrsOnAws/OrdersAPI/Default/orders/POST/ApiPermission.cqrsOnAwsOrdersAPIE8B34156.POST..orders
+  OrdersAPIordersPOSTApiPermissionTestcqrsOnAwsOrdersAPIE8B34156POSTordersA2664E11:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - OrderReceiver98F077AB
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: OrdersAPIE0C0828E
+            - /test-invoke-stage/POST/orders
+    Metadata:
+      aws:cdk:path: cqrsOnAws/OrdersAPI/Default/orders/POST/ApiPermission.Test.cqrsOnAwsOrdersAPIE8B34156.POST..orders
+  OrdersAPIordersPOST7EBE8556:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      AuthorizationType: CUSTOM
+      AuthorizerId:
+        Ref: DefaultAuthorizerCA0170E0
+      HttpMethod: POST
+      Integration:
+        IntegrationHttpMethod: POST
+        IntegrationResponses:
+          - StatusCode: "200"
+        Type: AWS
+        Uri:
+          Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - ":apigateway:"
+              - Ref: AWS::Region
+              - :lambda:path/2015-03-31/functions/
+              - Fn::GetAtt:
+                  - OrderReceiver98F077AB
+                  - Arn
+              - /invocations
+      MethodResponses:
+        - ResponseModels:
+            application/json: Empty
+          StatusCode: "200"
+      ResourceId:
+        Ref: OrdersAPIordersCD17E3B7
+      RestApiId:
+        Ref: OrdersAPIE0C0828E
+    Metadata:
+      aws:cdk:path: cqrsOnAws/OrdersAPI/Default/orders/POST/Resource
+  adminkey6A0FC8FE:
+    Type: AWS::ApiGateway::ApiKey
+    Properties:
+      Enabled: true
+      Name: admin_key
+      Value: dnlnUjp3aXVQb2pFUVZQQmU=
+    Metadata:
+      aws:cdk:path: cqrsOnAws/admin_key/Resource
+  debeziumconnectorkafkaconfig:
+    Type: AWS::MSK::Configuration
+    Properties:
+      Description: MSK config for debezium postgres connector
+      Name: order-event-cluster
+      ServerProperties: |-
+        auto.create.topics.enable = true
+        zookeeper.connection.timeout.ms = 6000
+    Metadata:
+      aws:cdk:path: cqrsOnAws/debezium-connector-kafka-config
+  ordereventcluster:
+    Type: AWS::MSK::Cluster
+    Properties:
+      BrokerNodeGroupInfo:
+        ClientSubnets:
+          - Ref: ordersvpcPrivateSubnetASubnet1Subnet9DCF4A03
+          - Ref: ordersvpcPrivateSubnetASubnet2SubnetFD60E2DB
+        ConnectivityInfo:
+          PublicAccess:
+            Type: DISABLED
+          VpcConnectivity:
+            ClientAuthentication:
+              Sasl:
+                Iam:
+                  Enabled: false
+                Scram:
+                  Enabled: false
+              Tls:
+                Enabled: false
+        InstanceType: kafka.t3.small
+        SecurityGroups:
+          - Fn::GetAtt:
+              - OrdersMSKSG7E75BB8A
+              - GroupId
+      ClusterName: order-event-cluster
+      ConfigurationInfo:
+        Arn:
+          Fn::GetAtt:
+            - debeziumconnectorkafkaconfig
+            - Arn
+        Revision:
+          Fn::GetAtt:
+            - debeziumconnectorkafkaconfig
+            - LatestRevision.Revision
+      KafkaVersion: 3.6.0
+      NumberOfBrokerNodes: 2
+    Metadata:
+      aws:cdk:path: cqrsOnAws/order-event-cluster
+  DatabaseCreatorroleDCFE115B:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: "2012-10-17"
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - :iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+        - Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - :iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole
+    Metadata:
+      aws:cdk:path: cqrsOnAws/DatabaseCreator_role/Resource
+  DatabaseCreatorroleDefaultPolicyA1525E86:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action: secretsmanager:GetSecretValue
+            Effect: Allow
+            Resource:
+              Ref: ordersdbchangesclustercredentials1BE6A453
+          - Action: rds-db:connect
+            Effect: Allow
+            Resource:
+              Fn::Join:
+                - ""
+                - - "arn:"
+                  - Ref: AWS::Partition
+                  - ":rds-db:"
+                  - Ref: AWS::Region
+                  - ":"
+                  - Ref: AWS::AccountId
+                  - ":dbuser:"
+                  - Fn::GetAtt:
+                      - orders46FA7C19
+                      - DBClusterResourceId
+                  - /AdminDBUser
+          - Action:
+              - secretsmanager:DescribeSecret
+              - secretsmanager:GetSecretValue
+            Effect: Allow
+            Resource:
+              Ref: ordersdbchangesclustercredentials1BE6A453
+        Version: "2012-10-17"
+      PolicyName: DatabaseCreatorroleDefaultPolicyA1525E86
+      Roles:
+        - Ref: DatabaseCreatorroleDCFE115B
+    Metadata:
+      aws:cdk:path: cqrsOnAws/DatabaseCreator_role/DefaultPolicy/Resource
+  OrderEventAdapterroleA5C63700:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: "2012-10-17"
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - :iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+        - Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - :iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole
+    Metadata:
+      aws:cdk:path: cqrsOnAws/OrderEventAdapter_role/Resource
+  OrderEventRedisPersisterrole41C065C0:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: "2012-10-17"
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - :iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole
+        - Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - :iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+    Metadata:
+      aws:cdk:path: cqrsOnAws/OrderEventRedisPersister_role/Resource
+  OrderEventRedisPersisterroleDefaultPolicy61640431:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action:
+              - sqs:ChangeMessageVisibility
+              - sqs:DeleteMessage
+              - sqs:GetQueueAttributes
+              - sqs:GetQueueUrl
+              - sqs:ReceiveMessage
+            Effect: Allow
+            Resource:
+              Fn::GetAtt:
+                - KafkaToRedisPersisterQueue6556068C
+                - Arn
+          - Action: sqs:SendMessage
+            Effect: Allow
+            Resource:
+              Fn::GetAtt:
+                - OrderEventTableCleaner786454C9
+                - Arn
+        Version: "2012-10-17"
+      PolicyName: OrderEventRedisPersisterroleDefaultPolicy61640431
+      Roles:
+        - Ref: OrderEventRedisPersisterrole41C065C0
+    Metadata:
+      aws:cdk:path: cqrsOnAws/OrderEventRedisPersister_role/DefaultPolicy/Resource
+  LambdaAuthorizerroleC7206C1C:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: "2012-10-17"
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - :iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+        - Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - :iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole
+    Metadata:
+      aws:cdk:path: cqrsOnAws/LambdaAuthorizer_role/Resource
+  LambdaAuthorizerroleDefaultPolicyA31CA401:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action: apigateway:GET
+            Effect: Allow
+            Resource:
+              Fn::Join:
+                - ""
+                - - "arn:aws:apigateway:"
+                  - Ref: AWS::Region
+                  - ::/apikeys
+        Version: "2012-10-17"
+      PolicyName: LambdaAuthorizerroleDefaultPolicyA31CA401
+      Roles:
+        - Ref: LambdaAuthorizerroleC7206C1C
+    Metadata:
+      aws:cdk:path: cqrsOnAws/LambdaAuthorizer_role/DefaultPolicy/Resource
+  OrderEventTableCleanerroleA53716FF:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: "2012-10-17"
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - :iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+        - Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - :iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole
+        - Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - :iam::aws:policy/service-role/AWSLambdaSQSQueueExecutionRole
+    Metadata:
+      aws:cdk:path: cqrsOnAws/OrderEventTableCleaner_role/Resource
+  OrderEventTableCleanerroleDefaultPolicy318F543F:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action: secretsmanager:GetSecretValue
+            Effect: Allow
+            Resource:
+              Ref: ordersdbchangesclustercredentials1BE6A453
+          - Action:
+              - sqs:ChangeMessageVisibility
+              - sqs:DeleteMessage
+              - sqs:GetQueueAttributes
+              - sqs:GetQueueUrl
+              - sqs:ReceiveMessage
+            Effect: Allow
+            Resource:
+              Fn::GetAtt:
+                - OrderEventTableCleaner786454C9
+                - Arn
+          - Action: rds-db:connect
+            Effect: Allow
+            Resource:
+              Fn::Join:
+                - ""
+                - - "arn:"
+                  - Ref: AWS::Partition
+                  - ":rds-db:"
+                  - Ref: AWS::Region
+                  - ":"
+                  - Ref: AWS::AccountId
+                  - ":dbuser:"
+                  - Fn::GetAtt:
+                      - orders46FA7C19
+                      - DBClusterResourceId
+                  - /AdminDBUser
+          - Action:
+              - secretsmanager:DescribeSecret
+              - secretsmanager:GetSecretValue
+            Effect: Allow
+            Resource:
+              Ref: ordersdbchangesclustercredentials1BE6A453
+        Version: "2012-10-17"
+      PolicyName: OrderEventTableCleanerroleDefaultPolicy318F543F
+      Roles:
+        - Ref: OrderEventTableCleanerroleA53716FF
+    Metadata:
+      aws:cdk:path: cqrsOnAws/OrderEventTableCleaner_role/DefaultPolicy/Resource
+  ClientRetrieverrole735E0654:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: "2012-10-17"
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - :iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+        - Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - :iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole
+    Metadata:
+      aws:cdk:path: cqrsOnAws/ClientRetriever_role/Resource
+  OrderReceiverrole707672A7:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: "2012-10-17"
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - :iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+        - Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - :iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole
+    Metadata:
+      aws:cdk:path: cqrsOnAws/OrderReceiver_role/Resource
+  OrderReceiverroleDefaultPolicy6DCD845A:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action: secretsmanager:GetSecretValue
+            Effect: Allow
+            Resource:
+              Ref: ordersdbchangesclustercredentials1BE6A453
+        Version: "2012-10-17"
+      PolicyName: OrderReceiverroleDefaultPolicy6DCD845A
+      Roles:
+        - Ref: OrderReceiverrole707672A7
+    Metadata:
+      aws:cdk:path: cqrsOnAws/OrderReceiver_role/DefaultPolicy/Resource
+  CustomAWSRoleforKafkaConnectrole233256DD:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: kafkaconnect.amazonaws.com
+        Version: "2012-10-17"
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - :iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+    Metadata:
+      aws:cdk:path: cqrsOnAws/CustomAWSRoleforKafkaConnect_role/Resource
+  CustomAWSRoleforKafkaConnectroleDefaultPolicy94C631B6:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action:
+              - kafka-cluster:Connect
+              - kafka-cluster:DescribeCluster
+            Effect: Allow
+            Resource:
+              Fn::GetAtt:
+                - ordereventcluster
+                - Arn
+          - Action:
+              - kafka-cluster:CreateTopic
+              - kafka-cluster:DescribeTopic
+              - kafka-cluster:ReadData
+              - kafka-cluster:WriteData
+            Effect: Allow
+            Resource:
+              Fn::Join:
+                - ""
+                - - "arn:aws:kafka:"
+                  - Ref: AWS::Region
+                  - ":"
+                  - Ref: AWS::AccountId
+                  - :topic/order-event-cluster/*/*
+          - Action:
+              - kafka-cluster:AlterGroup
+              - kafka-cluster:DescribeGroup
+            Effect: Allow
+            Resource:
+              Fn::Join:
+                - ""
+                - - "arn:aws:kafka:"
+                  - Ref: AWS::Region
+                  - ":"
+                  - Ref: AWS::AccountId
+                  - :group/order-event-cluster/*/*
+          - Action: ec2:CreateNetworkInterface
+            Condition:
+              StringEquals:
+                aws:RequestTag/AmazonMSKConnectManaged:
+                  - "true"
+              ForAllValues:StringEquals:
+                aws:TagKeys:
+                  - AmazonMSKConnectManaged
+            Effect: Allow
+            Resource: arn:aws:ec2:*:*:network-interface/*
+          - Action: ec2:CreateNetworkInterface
+            Effect: Allow
+            Resource:
+              - arn:aws:ec2:*:*:security-group/*
+              - arn:aws:ec2:*:*:subnet/*
+          - Action: ec2:CreateTags
+            Condition:
+              StringEquals:
+                ec2:CreateAction:
+                  - CreateNetworkInterface
+            Effect: Allow
+            Resource: arn:aws:ec2:*:*:network-interface/*
+          - Action:
+              - ec2:AttachNetworkInterface
+              - ec2:CreateNetworkInterfacePermission
+              - ec2:DeleteNetworkInterface
+              - ec2:DescribeNetworkInterfaces
+              - ec2:DetachNetworkInterface
+            Condition:
+              StringEquals:
+                ec2:ResourceTag/AmazonMSKConnectManaged:
+                  - "true"
+            Effect: Allow
+            Resource: arn:aws:ec2:*:*:network-interface/*
+        Version: "2012-10-17"
+      PolicyName: CustomAWSRoleforKafkaConnectroleDefaultPolicy94C631B6
+      Roles:
+        - Ref: CustomAWSRoleforKafkaConnectrole233256DD
+    Metadata:
+      aws:cdk:path: cqrsOnAws/CustomAWSRoleforKafkaConnect_role/DefaultPolicy/Resource
+  KafkaConnectorCreatorLambdaroleC9EBE580:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: "2012-10-17"
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - :iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+    Metadata:
+      aws:cdk:path: cqrsOnAws/KafkaConnectorCreatorLambda_role/Resource
+  KafkaConnectorCreatorLambdaroleDefaultPolicy41A65BD2:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action: secretsmanager:GetSecretValue
+            Effect: Allow
+            Resource:
+              Ref: ordersdbchangesclustercredentials1BE6A453
+          - Action: s3:GetObject
+            Effect: Allow
+            Resource:
+              - Fn::Join:
+                  - ""
+                  - - "arn:aws:s3:::"
+                    - Fn::Sub: cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}
+                    - /a37b2b599cc6e8c8193d243bc57fecfde79aa0f50852056cc68b990a6be4b14e.zip
+              - Fn::Join:
+                  - ""
+                  - - "arn:aws:s3:::"
+                    - Fn::Sub: cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}
+                    - /security-update-response.json
+          - Action:
+              - ec2:CreateNetworkInterface
+              - ec2:DescribeSecurityGroups
+              - ec2:DescribeSubnets
+              - ec2:DescribeVpcs
+              - events:PutRule
+              - iam:PassRole
+              - kafka:DescribeClusterOperation
+              - kafka:GetBootstrapBrokers
+              - kafkaconnect:CreateConnector
+              - kafkaconnect:CreateCustomPlugin
+              - kafkaconnect:DescribeConnector
+              - pipes:StartPipe
+            Effect: Allow
+            Resource: "*"
+        Version: "2012-10-17"
+      PolicyName: KafkaConnectorCreatorLambdaroleDefaultPolicy41A65BD2
+      Roles:
+        - Ref: KafkaConnectorCreatorLambdaroleC9EBE580
+    Metadata:
+      aws:cdk:path: cqrsOnAws/KafkaConnectorCreatorLambda_role/DefaultPolicy/Resource
+  MskConnectorCreator0A347952:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket:
+          Fn::Sub: cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}
+        S3Key: 520857acc2e41b8d0a2c0cc834fc12377f0bc89715c9bee9c7fc7fe6464f3c49.zip
+      Environment:
+        Variables:
+          BUCKET_ARN:
+            Fn::Join:
+              - ""
+              - - "arn:aws:s3:::"
+                - Fn::Sub: cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}
+          S3_BUCKET:
+            Fn::Sub: cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}
+          SECURITY_GROUP:
+            Fn::GetAtt:
+              - OrdersMSKSG7E75BB8A
+              - GroupId
+          SUBNETS1:
+            Ref: ordersvpcPrivateSubnetASubnet1Subnet9DCF4A03
+          SUBNETS2:
+            Ref: ordersvpcPrivateSubnetASubnet2SubnetFD60E2DB
+          SERVICE_ROLE:
+            Fn::GetAtt:
+              - CustomAWSRoleforKafkaConnectrole233256DD
+              - Arn
+          OBJECT_KEY: a37b2b599cc6e8c8193d243bc57fecfde79aa0f50852056cc68b990a6be4b14e.zip
+          SECRET_NAME:
+            Fn::Join:
+              - "-"
+              - - Fn::Select:
+                    - 0
+                    - Fn::Split:
+                        - "-"
+                        - Fn::Select:
+                            - 6
+                            - Fn::Split:
+                                - ":"
+                                - Ref: ordersdbchangesclustercredentials1BE6A453
+                - Fn::Select:
+                    - 1
+                    - Fn::Split:
+                        - "-"
+                        - Fn::Select:
+                            - 6
+                            - Fn::Split:
+                                - ":"
+                                - Ref: ordersdbchangesclustercredentials1BE6A453
+          DB_HOST:
+            Fn::GetAtt:
+              - orders46FA7C19
+              - Endpoint.Address
+          MSK_CLUSTER_ARN:
+            Fn::GetAtt:
+              - ordereventcluster
+              - Arn
+      Handler: lambda_function.lambda_handler
+      Role:
+        Fn::GetAtt:
+          - KafkaConnectorCreatorLambdaroleC9EBE580
+          - Arn
+      Runtime: python3.12
+      Timeout: 30
+    DependsOn:
+      - KafkaConnectorCreatorLambdaroleDefaultPolicy41A65BD2
+      - KafkaConnectorCreatorLambdaroleC9EBE580
+    Metadata:
+      aws:cdk:path: cqrsOnAws/MskConnectorCreator/Resource
+      aws:asset:path: asset.520857acc2e41b8d0a2c0cc834fc12377f0bc89715c9bee9c7fc7fe6464f3c49.zip
+      aws:asset:is-bundled: false
+      aws:asset:property: Code
+  mskConnectorCreatorRule531162BF:
+    Type: AWS::Events::Rule
+    Properties:
+      Description: The rule that triggers the creation of the MSK Debezium Connector creation.
+      Name: mskConnectorCreatorRule
+      ScheduleExpression: rate(1 minute)
+      State: DISABLED
+      Targets:
+        - Arn:
+            Fn::GetAtt:
+              - MskConnectorCreator0A347952
+              - Arn
+          Id: Target0
+          RetryPolicy:
+            MaximumEventAgeInSeconds: 3600
+            MaximumRetryAttempts: 4
+    DependsOn:
+      - MskConnectorCreator0A347952
+    Metadata:
+      aws:cdk:path: cqrsOnAws/mskConnectorCreatorRule/Resource
+  mskConnectorCreatorRuleAllowEventRulecqrsOnAwsMskConnectorCreator8A5D1B5E67046B07:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - MskConnectorCreator0A347952
+          - Arn
+      Principal: events.amazonaws.com
+      SourceArn:
+        Fn::GetAtt:
+          - mskConnectorCreatorRule531162BF
+          - Arn
+    DependsOn:
+      - MskConnectorCreator0A347952
+    Metadata:
+      aws:cdk:path: cqrsOnAws/mskConnectorCreatorRule/AllowEventRulecqrsOnAwsMskConnectorCreator8A5D1B5E
+  KafkaSecurityUpdaterLambdarole814B83BF:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: "2012-10-17"
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - :iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+        - Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - :iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole
+    Metadata:
+      aws:cdk:path: cqrsOnAws/KafkaSecurityUpdaterLambda_role/Resource
+  KafkaSecurityUpdaterLambdaroleDefaultPolicy1F5B4086:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action:
+              - kafka:DescribeCluster
+              - kafka:UpdateSecurity
+            Effect: Allow
+            Resource:
+              Fn::GetAtt:
+                - ordereventcluster
+                - Arn
+          - Action: s3:PutObject
+            Effect: Allow
+            Resource:
+              Fn::Join:
+                - ""
+                - - "arn:"
+                  - Ref: AWS::Partition
+                  - ":s3:::"
+                  - Fn::Sub: cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}
+                  - /*
+          - Action: events:PutRule
+            Effect: Allow
+            Resource:
+              Fn::GetAtt:
+                - mskConnectorCreatorRule531162BF
+                - Arn
+        Version: "2012-10-17"
+      PolicyName: KafkaSecurityUpdaterLambdaroleDefaultPolicy1F5B4086
+      Roles:
+        - Ref: KafkaSecurityUpdaterLambdarole814B83BF
+    Metadata:
+      aws:cdk:path: cqrsOnAws/KafkaSecurityUpdaterLambda_role/DefaultPolicy/Resource
+  LambdaAuthorizerB5870E9B:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket:
+          Fn::Sub: cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}
+        S3Key: 835941f67dff49780baf1040c5334fd9890cbd5cdca34c947a79fe5d7418e99b.zip
+      Handler: lambda_function.lambda_handler
+      Role:
+        Fn::GetAtt:
+          - LambdaAuthorizerroleC7206C1C
+          - Arn
+      Runtime: python3.11
+      VpcConfig:
+        SecurityGroupIds:
+          - Fn::GetAtt:
+              - LambdaAuthorizerSG68C76E56
+              - GroupId
+        SubnetIds:
+          - Ref: ordersvpcPrivateSubnetASubnet1Subnet9DCF4A03
+          - Ref: ordersvpcPrivateSubnetASubnet2SubnetFD60E2DB
+    DependsOn:
+      - LambdaAuthorizerroleDefaultPolicyA31CA401
+      - LambdaAuthorizerroleC7206C1C
+      - ordersvpcPrivateSubnetASubnet1DefaultRouteF4785B86
+      - ordersvpcPrivateSubnetASubnet1RouteTableAssociation152EEC04
+      - ordersvpcPrivateSubnetASubnet2DefaultRoute6AFEFBFA
+      - ordersvpcPrivateSubnetASubnet2RouteTableAssociation56C60842
+    Metadata:
+      aws:cdk:path: cqrsOnAws/LambdaAuthorizer/Resource
+      aws:asset:path: asset.835941f67dff49780baf1040c5334fd9890cbd5cdca34c947a79fe5d7418e99b.zip
+      aws:asset:is-bundled: false
+      aws:asset:property: Code
+  LambdaAuthorizercqrsOnAwsDefaultAuthorizer616F4C87Permissions69A6C59E:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - LambdaAuthorizerB5870E9B
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: OrdersAPIE0C0828E
+            - /authorizers/
+            - Ref: DefaultAuthorizerCA0170E0
+    DependsOn:
+      - ordersvpcPrivateSubnetASubnet1DefaultRouteF4785B86
+      - ordersvpcPrivateSubnetASubnet1RouteTableAssociation152EEC04
+      - ordersvpcPrivateSubnetASubnet2DefaultRoute6AFEFBFA
+      - ordersvpcPrivateSubnetASubnet2RouteTableAssociation56C60842
+    Metadata:
+      aws:cdk:path: cqrsOnAws/LambdaAuthorizer/cqrsOnAwsDefaultAuthorizer616F4C87:Permissions
+  OrderEventAdapter42FE2311:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket:
+          Fn::Sub: cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}
+        S3Key: e36d9d14c6123a8f3a92e8585da45a77fa9b0c1dbc255bc900cbcf9a8cc440b5.zip
+      Handler: lambda_function.lambda_handler
+      Role:
+        Fn::GetAtt:
+          - OrderEventAdapterroleA5C63700
+          - Arn
+      Runtime: python3.11
+      VpcConfig:
+        SecurityGroupIds:
+          - Fn::GetAtt:
+              - OrderEventAdapterSG3299934E
+              - GroupId
+        SubnetIds:
+          - Ref: ordersvpcPrivateSubnetASubnet1Subnet9DCF4A03
+          - Ref: ordersvpcPrivateSubnetASubnet2SubnetFD60E2DB
+    DependsOn:
+      - OrderEventAdapterroleA5C63700
+      - ordersvpcPrivateSubnetASubnet1DefaultRouteF4785B86
+      - ordersvpcPrivateSubnetASubnet1RouteTableAssociation152EEC04
+      - ordersvpcPrivateSubnetASubnet2DefaultRoute6AFEFBFA
+      - ordersvpcPrivateSubnetASubnet2RouteTableAssociation56C60842
+    Metadata:
+      aws:cdk:path: cqrsOnAws/OrderEventAdapter/Resource
+      aws:asset:path: asset.e36d9d14c6123a8f3a92e8585da45a77fa9b0c1dbc255bc900cbcf9a8cc440b5.zip
+      aws:asset:is-bundled: false
+      aws:asset:property: Code
+  MskSecurityUpdater5A98DC6F:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket:
+          Fn::Sub: cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}
+        S3Key: 1d33aa19d2ed6506848cfad8baf64f55adf2b5d672351fabcb18decb7c56a4bb.zip
+      Environment:
+        Variables:
+          S3_BUCKET:
+            Fn::Sub: cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}
+          MSK_CLUSTER_ARN:
+            Fn::GetAtt:
+              - ordereventcluster
+              - Arn
+      Handler: lambda_function.lambda_handler
+      Role:
+        Fn::GetAtt:
+          - KafkaSecurityUpdaterLambdarole814B83BF
+          - Arn
+      Runtime: python3.12
+      Timeout: 30
+    DependsOn:
+      - KafkaSecurityUpdaterLambdaroleDefaultPolicy1F5B4086
+      - KafkaSecurityUpdaterLambdarole814B83BF
+    Metadata:
+      aws:cdk:path: cqrsOnAws/MskSecurityUpdater/Resource
+      aws:asset:path: asset.1d33aa19d2ed6506848cfad8baf64f55adf2b5d672351fabcb18decb7c56a4bb.zip
+      aws:asset:is-bundled: false
+      aws:asset:property: Code
+  DatabaseCreator94A5A6DF:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket:
+          Fn::Sub: cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}
+        S3Key: b16e1bb62278f1f7f666a89f817cc136b285dd2b7365a20f8592aa6cc682f5fd.zip
+      Environment:
+        Variables:
+          DB_HOST:
+            Fn::GetAtt:
+              - orders46FA7C19
+              - Endpoint.Address
+          DB_NAME: orders
+          DB_PORT: "5432"
+          SECRET_NAME:
+            Fn::Join:
+              - "-"
+              - - Fn::Select:
+                    - 0
+                    - Fn::Split:
+                        - "-"
+                        - Fn::Select:
+                            - 6
+                            - Fn::Split:
+                                - ":"
+                                - Ref: ordersdbchangesclustercredentials1BE6A453
+                - Fn::Select:
+                    - 1
+                    - Fn::Split:
+                        - "-"
+                        - Fn::Select:
+                            - 6
+                            - Fn::Split:
+                                - ":"
+                                - Ref: ordersdbchangesclustercredentials1BE6A453
+      Handler: lambda_function.lambda_handler
+      Role:
+        Fn::GetAtt:
+          - DatabaseCreatorroleDCFE115B
+          - Arn
+      Runtime: python3.11
+      VpcConfig:
+        SecurityGroupIds:
+          - Fn::GetAtt:
+              - databasecreatorsg6E6C8DB7
+              - GroupId
+        SubnetIds:
+          - Ref: ordersvpcPrivateSubnetASubnet1Subnet9DCF4A03
+          - Ref: ordersvpcPrivateSubnetASubnet2SubnetFD60E2DB
+    DependsOn:
+      - DatabaseCreatorroleDefaultPolicyA1525E86
+      - DatabaseCreatorroleDCFE115B
+      - ordersvpcPrivateSubnetASubnet1DefaultRouteF4785B86
+      - ordersvpcPrivateSubnetASubnet1RouteTableAssociation152EEC04
+      - ordersvpcPrivateSubnetASubnet2DefaultRoute6AFEFBFA
+      - ordersvpcPrivateSubnetASubnet2RouteTableAssociation56C60842
+    Metadata:
+      aws:cdk:path: cqrsOnAws/DatabaseCreator/Resource
+      aws:asset:path: asset.b16e1bb62278f1f7f666a89f817cc136b285dd2b7365a20f8592aa6cc682f5fd.zip
+      aws:asset:is-bundled: false
+      aws:asset:property: Code
+  DatabaseCreatorAndSecurityUpdaterStartupRule403E1F60:
+    Type: AWS::Events::Rule
+    Properties:
+      Description: Rule to start the creation of the database and the security update of the MSK cluster.
+      EventPattern:
+        detail:
+          stack-id:
+            - Ref: AWS::StackId
+          status-details:
+            status:
+              - CREATE_COMPLETE
+        detail-type:
+          - CloudFormation Stack Status Change
+        region:
+          - Ref: AWS::Region
+        resources:
+          - Ref: AWS::StackId
+        source:
+          - aws.cloudformation
+      Name: databaseCreatorAndSecurityUpdaterStartupRule
+      State: ENABLED
+      Targets:
+        - Arn:
+            Fn::GetAtt:
+              - MskSecurityUpdater5A98DC6F
+              - Arn
+          Id: Target0
+          RetryPolicy:
+            MaximumEventAgeInSeconds: 3600
+            MaximumRetryAttempts: 4
+        - Arn:
+            Fn::GetAtt:
+              - DatabaseCreator94A5A6DF
+              - Arn
+          Id: Target1
+          RetryPolicy:
+            MaximumEventAgeInSeconds: 3600
+            MaximumRetryAttempts: 4
+    DependsOn:
+      - DatabaseCreator94A5A6DF
+      - MskSecurityUpdater5A98DC6F
+    Metadata:
+      aws:cdk:path: cqrsOnAws/DatabaseCreatorAndSecurityUpdaterStartupRule/Resource
+  DatabaseCreatorAndSecurityUpdaterStartupRuleAllowEventRulecqrsOnAwsMskSecurityUpdater74D2DB579A12DFB5:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - MskSecurityUpdater5A98DC6F
+          - Arn
+      Principal: events.amazonaws.com
+      SourceArn:
+        Fn::GetAtt:
+          - DatabaseCreatorAndSecurityUpdaterStartupRule403E1F60
+          - Arn
+    DependsOn:
+      - DatabaseCreator94A5A6DF
+      - MskSecurityUpdater5A98DC6F
+    Metadata:
+      aws:cdk:path: cqrsOnAws/DatabaseCreatorAndSecurityUpdaterStartupRule/AllowEventRulecqrsOnAwsMskSecurityUpdater74D2DB57
+  DatabaseCreatorAndSecurityUpdaterStartupRuleAllowEventRulecqrsOnAwsDatabaseCreator2945EA68A2543B8C:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - DatabaseCreator94A5A6DF
+          - Arn
+      Principal: events.amazonaws.com
+      SourceArn:
+        Fn::GetAtt:
+          - DatabaseCreatorAndSecurityUpdaterStartupRule403E1F60
+          - Arn
+    DependsOn:
+      - DatabaseCreator94A5A6DF
+      - MskSecurityUpdater5A98DC6F
+    Metadata:
+      aws:cdk:path: cqrsOnAws/DatabaseCreatorAndSecurityUpdaterStartupRule/AllowEventRulecqrsOnAwsDatabaseCreator2945EA68
+  OrderEventRedisPersisterCEBB3E2A:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket:
+          Fn::Sub: cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}
+        S3Key: f1b795e9c30d43dfee4f08819740ade806a65f24580405aace09f62a3c13b5f5.zip
+      Environment:
+        Variables:
+          REDIS_HOST:
+            Fn::GetAtt:
+              - ordersdbcache
+              - RedisEndpoint.Address
+          REDIS_PORT: "6379"
+          SQS_URL:
+            Ref: OrderEventTableCleaner786454C9
+          REDIS_UPDATER_SQS_URL:
+            Ref: KafkaToRedisPersisterQueue6556068C
+      Handler: lambda_function.lambda_handler
+      Role:
+        Fn::GetAtt:
+          - OrderEventRedisPersisterrole41C065C0
+          - Arn
+      Runtime: python3.11
+      VpcConfig:
+        SecurityGroupIds:
+          - Fn::GetAtt:
+              - LambdaToRedisSG3183E45E
+              - GroupId
+        SubnetIds:
+          - Ref: ordersvpcPrivateSubnetASubnet1Subnet9DCF4A03
+          - Ref: ordersvpcPrivateSubnetASubnet2SubnetFD60E2DB
+    DependsOn:
+      - OrderEventRedisPersisterroleDefaultPolicy61640431
+      - OrderEventRedisPersisterrole41C065C0
+      - ordersvpcPrivateSubnetASubnet1DefaultRouteF4785B86
+      - ordersvpcPrivateSubnetASubnet1RouteTableAssociation152EEC04
+      - ordersvpcPrivateSubnetASubnet2DefaultRoute6AFEFBFA
+      - ordersvpcPrivateSubnetASubnet2RouteTableAssociation56C60842
+    Metadata:
+      aws:cdk:path: cqrsOnAws/OrderEventRedisPersister/Resource
+      aws:asset:path: asset.f1b795e9c30d43dfee4f08819740ade806a65f24580405aace09f62a3c13b5f5.zip
+      aws:asset:is-bundled: false
+      aws:asset:property: Code
+  OrderEventRedisPersisterSqsEventSourcecqrsOnAwsKafkaToRedisPersisterQueue822CE38BA8396AC4:
+    Type: AWS::Lambda::EventSourceMapping
+    Properties:
+      EventSourceArn:
+        Fn::GetAtt:
+          - KafkaToRedisPersisterQueue6556068C
+          - Arn
+      FunctionName:
+        Ref: OrderEventRedisPersisterCEBB3E2A
+    DependsOn:
+      - ordersvpcPrivateSubnetASubnet1DefaultRouteF4785B86
+      - ordersvpcPrivateSubnetASubnet1RouteTableAssociation152EEC04
+      - ordersvpcPrivateSubnetASubnet2DefaultRoute6AFEFBFA
+      - ordersvpcPrivateSubnetASubnet2RouteTableAssociation56C60842
+    Metadata:
+      aws:cdk:path: cqrsOnAws/OrderEventRedisPersister/SqsEventSource:cqrsOnAwsKafkaToRedisPersisterQueue822CE38B/Resource
+  OrderEventTableCleanerlambda36ED445A:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket:
+          Fn::Sub: cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}
+        S3Key: 11ebf7b236bba7950838fad9b36c6d12b0c8acebb64842d50c9ee28c9f7ce68d.zip
+      Environment:
+        Variables:
+          DB_HOST:
+            Fn::GetAtt:
+              - orders46FA7C19
+              - Endpoint.Address
+          DB_NAME: orders
+          DB_PORT: "5432"
+          SECRET_NAME:
+            Fn::Join:
+              - "-"
+              - - Fn::Select:
+                    - 0
+                    - Fn::Split:
+                        - "-"
+                        - Fn::Select:
+                            - 6
+                            - Fn::Split:
+                                - ":"
+                                - Ref: ordersdbchangesclustercredentials1BE6A453
+                - Fn::Select:
+                    - 1
+                    - Fn::Split:
+                        - "-"
+                        - Fn::Select:
+                            - 6
+                            - Fn::Split:
+                                - ":"
+                                - Ref: ordersdbchangesclustercredentials1BE6A453
+      Handler: lambda_function.lambda_handler
+      Role:
+        Fn::GetAtt:
+          - OrderEventTableCleanerroleA53716FF
+          - Arn
+      Runtime: python3.11
+      VpcConfig:
+        SecurityGroupIds:
+          - Fn::GetAtt:
+              - OrderEventTableCleanerSGB75E0EA2
+              - GroupId
+        SubnetIds:
+          - Ref: ordersvpcPrivateSubnetASubnet1Subnet9DCF4A03
+          - Ref: ordersvpcPrivateSubnetASubnet2SubnetFD60E2DB
+    DependsOn:
+      - OrderEventTableCleanerroleDefaultPolicy318F543F
+      - OrderEventTableCleanerroleA53716FF
+      - ordersvpcPrivateSubnetASubnet1DefaultRouteF4785B86
+      - ordersvpcPrivateSubnetASubnet1RouteTableAssociation152EEC04
+      - ordersvpcPrivateSubnetASubnet2DefaultRoute6AFEFBFA
+      - ordersvpcPrivateSubnetASubnet2RouteTableAssociation56C60842
+    Metadata:
+      aws:cdk:path: cqrsOnAws/OrderEventTableCleaner_lambda/Resource
+      aws:asset:path: asset.11ebf7b236bba7950838fad9b36c6d12b0c8acebb64842d50c9ee28c9f7ce68d.zip
+      aws:asset:is-bundled: false
+      aws:asset:property: Code
+  OrderEventTableCleanerlambdaSqsEventSourcecqrsOnAwsOrderEventTableCleaner82FD4B5D472E0F12:
+    Type: AWS::Lambda::EventSourceMapping
+    Properties:
+      EventSourceArn:
+        Fn::GetAtt:
+          - OrderEventTableCleaner786454C9
+          - Arn
+      FunctionName:
+        Ref: OrderEventTableCleanerlambda36ED445A
+    DependsOn:
+      - ordersvpcPrivateSubnetASubnet1DefaultRouteF4785B86
+      - ordersvpcPrivateSubnetASubnet1RouteTableAssociation152EEC04
+      - ordersvpcPrivateSubnetASubnet2DefaultRoute6AFEFBFA
+      - ordersvpcPrivateSubnetASubnet2RouteTableAssociation56C60842
+    Metadata:
+      aws:cdk:path: cqrsOnAws/OrderEventTableCleaner_lambda/SqsEventSource:cqrsOnAwsOrderEventTableCleaner82FD4B5D/Resource
+  ClientRetriever6C60E7B6:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket:
+          Fn::Sub: cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}
+        S3Key: 4f197ee3d0f191604fd18f8d2acd1056becea705446d1799277b5d51b462fbef.zip
+      Environment:
+        Variables:
+          REDIS_HOST:
+            Fn::GetAtt:
+              - ordersdbcache
+              - RedisEndpoint.Address
+          REDIS_PORT: "6379"
+      Handler: lambda_function.lambda_handler
+      Role:
+        Fn::GetAtt:
+          - ClientRetrieverrole735E0654
+          - Arn
+      Runtime: python3.11
+      VpcConfig:
+        SecurityGroupIds:
+          - Fn::GetAtt:
+              - ClientRetrieverSGB1AA3446
+              - GroupId
+        SubnetIds:
+          - Ref: ordersvpcPrivateSubnetASubnet1Subnet9DCF4A03
+          - Ref: ordersvpcPrivateSubnetASubnet2SubnetFD60E2DB
+    DependsOn:
+      - ClientRetrieverrole735E0654
+      - ordersvpcPrivateSubnetASubnet1DefaultRouteF4785B86
+      - ordersvpcPrivateSubnetASubnet1RouteTableAssociation152EEC04
+      - ordersvpcPrivateSubnetASubnet2DefaultRoute6AFEFBFA
+      - ordersvpcPrivateSubnetASubnet2RouteTableAssociation56C60842
+    Metadata:
+      aws:cdk:path: cqrsOnAws/ClientRetriever/Resource
+      aws:asset:path: asset.4f197ee3d0f191604fd18f8d2acd1056becea705446d1799277b5d51b462fbef.zip
+      aws:asset:is-bundled: false
+      aws:asset:property: Code
+  OrderReceiver98F077AB:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket:
+          Fn::Sub: cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}
+        S3Key: b077548f4b631dbec3c306c65605ad908fcac8364215cf93ece1012c7ee91b8f.zip
+      Environment:
+        Variables:
+          DB_HOST:
+            Fn::GetAtt:
+              - orders46FA7C19
+              - Endpoint.Address
+          DB_NAME: orders
+          DB_PORT: "5432"
+          SECRET_NAME:
+            Fn::Join:
+              - "-"
+              - - Fn::Select:
+                    - 0
+                    - Fn::Split:
+                        - "-"
+                        - Fn::Select:
+                            - 6
+                            - Fn::Split:
+                                - ":"
+                                - Ref: ordersdbchangesclustercredentials1BE6A453
+                - Fn::Select:
+                    - 1
+                    - Fn::Split:
+                        - "-"
+                        - Fn::Select:
+                            - 6
+                            - Fn::Split:
+                                - ":"
+                                - Ref: ordersdbchangesclustercredentials1BE6A453
+      Handler: lambda_function.lambda_handler
+      Role:
+        Fn::GetAtt:
+          - OrderReceiverrole707672A7
+          - Arn
+      Runtime: python3.11
+      VpcConfig:
+        SecurityGroupIds:
+          - Fn::GetAtt:
+              - orderreceiversg12A7041A
+              - GroupId
+        SubnetIds:
+          - Ref: ordersvpcPrivateSubnetASubnet1Subnet9DCF4A03
+          - Ref: ordersvpcPrivateSubnetASubnet2SubnetFD60E2DB
+    DependsOn:
+      - OrderReceiverroleDefaultPolicy6DCD845A
+      - OrderReceiverrole707672A7
+      - ordersvpcPrivateSubnetASubnet1DefaultRouteF4785B86
+      - ordersvpcPrivateSubnetASubnet1RouteTableAssociation152EEC04
+      - ordersvpcPrivateSubnetASubnet2DefaultRoute6AFEFBFA
+      - ordersvpcPrivateSubnetASubnet2RouteTableAssociation56C60842
+    Metadata:
+      aws:cdk:path: cqrsOnAws/OrderReceiver/Resource
+      aws:asset:path: asset.b077548f4b631dbec3c306c65605ad908fcac8364215cf93ece1012c7ee91b8f.zip
+      aws:asset:is-bundled: false
+      aws:asset:property: Code
+  DefaultAuthorizerCA0170E0:
+    Type: AWS::ApiGateway::Authorizer
+    Properties:
+      AuthorizerResultTtlInSeconds: 0
+      AuthorizerUri:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Fn::Select:
+                - 1
+                - Fn::Split:
+                    - ":"
+                    - Fn::GetAtt:
+                        - LambdaAuthorizerB5870E9B
+                        - Arn
+            - ":apigateway:"
+            - Fn::Select:
+                - 3
+                - Fn::Split:
+                    - ":"
+                    - Fn::GetAtt:
+                        - LambdaAuthorizerB5870E9B
+                        - Arn
+            - :lambda:path/2015-03-31/functions/
+            - Fn::GetAtt:
+                - LambdaAuthorizerB5870E9B
+                - Arn
+            - /invocations
+      IdentitySource: method.request.header.Authorization
+      Name: cqrsOnAwsDefaultAuthorizer616F4C87
+      RestApiId:
+        Ref: OrdersAPIE0C0828E
+      Type: TOKEN
+    Metadata:
+      aws:cdk:path: cqrsOnAws/DefaultAuthorizer/Resource
+  AmazonEventBridgePipeOrderEventPiperole4FFEAD15:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: pipes.amazonaws.com
+        Version: "2012-10-17"
+    Metadata:
+      aws:cdk:path: cqrsOnAws/Amazon_EventBridge_Pipe_OrderEventPipe_role/Resource
+  AmazonEventBridgePipeOrderEventPiperoleDefaultPolicy2B39D4F2:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action:
+              - kafka-cluster:*Topic*
+              - kafka-cluster:ReadData
+              - kafka-cluster:WriteData
+            Effect: Allow
+            Resource:
+              Fn::Join:
+                - ""
+                - - "arn:aws:kafka:"
+                  - Ref: AWS::Region
+                  - ":"
+                  - Ref: AWS::AccountId
+                  - :topic/order-event-cluster/*/*
+          - Action:
+              - kafka-cluster:AlterGroup
+              - kafka-cluster:DescribeGroup
+            Effect: Allow
+            Resource:
+              Fn::Join:
+                - ""
+                - - "arn:aws:kafka:"
+                  - Ref: AWS::Region
+                  - ":"
+                  - Ref: AWS::AccountId
+                  - :group/order-event-cluster/*/*
+          - Action:
+              - kafka-cluster:AlterCluster
+              - kafka-cluster:Connect
+              - kafka-cluster:DescribeCluster
+              - kafka:DescribeClusterV2
+              - kafka:GetBootstrapBrokers
+            Effect: Allow
+            Resource:
+              Fn::GetAtt:
+                - ordereventcluster
+                - Arn
+          - Action: lambda:InvokeFunction
+            Effect: Allow
+            Resource:
+              Fn::GetAtt:
+                - OrderEventAdapter42FE2311
+                - Arn
+          - Action: sns:Publish
+            Effect: Allow
+            Resource:
+              Ref: OrderEventTopic83B92FDB
+          - Action:
+              - ec2:DescribeNetworkInterfaces
+              - ec2:DescribeSecurityGroups
+              - ec2:DescribeSubnets
+              - ec2:DescribeVpcs
+            Effect: Allow
+            Resource: "*"
+          - Action:
+              - ec2:CreateNetworkInterface
+              - ec2:DeleteNetworkInterface
+            Condition:
+              StringEqualsIfExists:
+                ec2:SubnetID:
+                  - Ref: ordersvpcPrivateSubnetASubnet1Subnet9DCF4A03
+                  - Ref: ordersvpcPrivateSubnetASubnet2SubnetFD60E2DB
+            Effect: Allow
+            Resource: "*"
+        Version: "2012-10-17"
+      PolicyName: AmazonEventBridgePipeOrderEventPiperoleDefaultPolicy2B39D4F2
+      Roles:
+        - Ref: AmazonEventBridgePipeOrderEventPiperole4FFEAD15
+    Metadata:
+      aws:cdk:path: cqrsOnAws/Amazon_EventBridge_Pipe_OrderEventPipe_role/DefaultPolicy/Resource
+  ordereventpipeloggroupED3E5405:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      RetentionInDays: 731
+    UpdateReplacePolicy: Retain
+    DeletionPolicy: Retain
+    Metadata:
+      aws:cdk:path: cqrsOnAws/order_event_pipe_log_group/Resource
+  OrderEventPipe:
+    Type: AWS::Pipes::Pipe
+    Properties:
+      DesiredState: STOPPED
+      Enrichment:
+        Fn::GetAtt:
+          - OrderEventAdapter42FE2311
+          - Arn
+      Name: OrderEventPipe
+      RoleArn:
+        Fn::GetAtt:
+          - AmazonEventBridgePipeOrderEventPiperole4FFEAD15
+          - Arn
+      Source:
+        Fn::GetAtt:
+          - ordereventcluster
+          - Arn
+      SourceParameters:
+        ManagedStreamingKafkaParameters:
+          TopicName: orders.public.order_event
+      Target:
+        Ref: OrderEventTopic83B92FDB
+    DependsOn:
+      - ordereventcluster
+    Metadata:
+      aws:cdk:path: cqrsOnAws/OrderEventPipe
+  CDKMetadata:
+    Type: AWS::CDK::Metadata
+    Properties:
+      Analytics: v2:deflate64:H4sIAAAAAAAA/21T21LcMAz9Ft6NC+wXhOUyTKFNNwyvjOKIrLuJ7VoyO9uM/71jJ5ss0Jf4HMmSpSPlSl6uLuTFGezpXDW7807XcqgY1E7Anl4HVFdyeHFKrN/MS7kWZag7rapQG+RkW9DGBsZnqDtc7IutILJKA2tr5ssJ3D6U6fgBfA+MeziI0ut3YFwSPxhGb3C+MFYysYIZ1LZHw+Kus/tH2yb/EebQN1D44tStaZzVhqf4mVaogtd8uPc2uFz6qSEKDb0cNnZsK5+l7bTKdYwois62JIdH285JjjgKWr0CETLJIh2CVvI6qB3yNRAKQuWRqQcDLXo5VJlPZXjkKHxDcijBQ4+Mfn7g5nrdBWL0n1w3wFAD4eQVo44nYV8Mx5uZPBhiMAqjwA6ItQK1RTnME53j1skxhUZBf0gOvwKGrNII8nfR6oRGQYbkUIWalNfuuBQf+LN1Om9dBlGA0+04cjlskLhwOg9kgYVSNhgWN+g6e8grkVpaWMXQjsuZwQbJBq8wz+FIppwjfkLe2iaZJlQ4/R1zNxN6tjs0ReCt9frvqOHCouigrxvI8pXoe02UWrsLRh17nvHtOxqu8rtP4Jw2eZG/WqPoaZczrq15023w8081TwNTFMlhE6atDR1G4bRDkqkU7TCedByIbf9fAT66Sm/fdYM+C5aXOQk5VfozsAtZ8bU1jU41RVEeeGvNt5W8vJSrs9+k9bkPhnWPcjOe/wAVcZbvgAQAAA==
+    Metadata:
+      aws:cdk:path: cqrsOnAws/CDKMetadata/Default
+    Condition: CDKMetadataAvailable
+Outputs:
+  OrdersAPIEndpoint183967A6:
+    Value:
+      Fn::Join:
+        - ""
+        - - https://
+          - Ref: OrdersAPIE0C0828E
+          - .execute-api.
+          - Ref: AWS::Region
+          - "."
+          - Ref: AWS::URLSuffix
+          - /
+          - Ref: OrdersAPIDeploymentStageprod454ADC6B
+          - /
+Conditions:
+  CDKMetadataAvailable:
+    Fn::Or:
+      - Fn::Or:
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - af-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-northeast-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-northeast-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-southeast-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-southeast-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ca-central-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - cn-north-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - cn-northwest-1
+      - Fn::Or:
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-central-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-north-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-3
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - il-central-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - me-central-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - me-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - sa-east-1
+      - Fn::Or:
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-east-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-west-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-west-2
+Parameters:
+  BootstrapVersion:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: /cdk-bootstrap/hnb659fds/version
+    Description: Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]
+Rules:
+  CheckBootstrapVersion:
+    Assertions:
+      - Assert:
+          Fn::Not:
+            - Fn::Contains:
+                - - "1"
+                  - "2"
+                  - "3"
+                  - "4"
+                  - "5"
+                - Ref: BootstrapVersion
+        AssertDescription: CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.
+

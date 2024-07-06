@@ -349,7 +349,8 @@ class VpcStack(Stack):
                                      )
                                      )
 
-        # MSK connect creation its a blocker
+        topic = f"arn:aws:kafka:{aws_cdk.Aws.REGION}:{aws_cdk.Aws.ACCOUNT_ID}:topic/{msk_cluster.cluster_name}/*/*"
+        group = f"arn:aws:kafka:{aws_cdk.Aws.REGION}:{aws_cdk.Aws.ACCOUNT_ID}:group/{msk_cluster.cluster_name}/*/*"
 
         # roles
         databasecreator_role = iam.Role(self, "DatabaseCreator_role",
@@ -428,31 +429,73 @@ class VpcStack(Stack):
 
         CustomAWSRoleforKafkaConnect_role = iam.Role(self, "CustomAWSRoleforKafkaConnect_role",
                                                      assumed_by=iam.ServicePrincipal("kafkaconnect.amazonaws.com"))
+        CustomAWSRoleforKafkaConnect_role.add_managed_policy(
+            iam.ManagedPolicy.from_aws_managed_policy_name("service-role/AWSLambdaBasicExecutionRole"))
         CustomAWSRoleforKafkaConnect_role.add_to_policy(iam.PolicyStatement(effect=iam.Effect.ALLOW,
-                                                                            actions=["logs:CreateLogGroup",
-                                                                                     "logs:CreateLogStream",
-                                                                                     "logs:PutLogEvents",
-                                                                                     "logs:DescribeLogStreams",
-                                                                                     "kafka-cluster:Connect",
-                                                                                     "kafka-cluster:DescribeCluster",
-                                                                                     "kafka-cluster:ReadData",
-                                                                                     "kafka-cluster:DescribeTopic",
-                                                                                     "kafka-cluster:CreateTopic",
+                                                                            actions=["kafka-cluster:Connect",
+                                                                                     "kafka-cluster:DescribeCluster"],
+                                                                            resources=[msk_cluster.attr_arn]
+                                                                            ))
+        CustomAWSRoleforKafkaConnect_role.add_to_policy(iam.PolicyStatement(effect=iam.Effect.ALLOW,
+                                                                            actions=["kafka-cluster:CreateTopic",
                                                                                      "kafka-cluster:WriteData",
                                                                                      "kafka-cluster:ReadData",
-                                                                                     "kafka-cluster:DescribeTopic",
-                                                                                     "kafka-cluster:AlterGroup",
-                                                                                     "kafka-cluster:DescribeGroup",
-                                                                                     "ec2:CreateNetworkInterface",
-                                                                                     "ec2:CreateNetworkInterface",
-                                                                                     "ec2:CreateTags",
-                                                                                     "ec2:DescribeNetworkInterfaces",
-                                                                                     "ec2:CreateNetworkInterfacePermission",
-                                                                                     "ec2:AttachNetworkInterface",
-                                                                                     "ec2:DetachNetworkInterface",
-                                                                                     "logs:ListLogDeliveries",
-                                                                                     "ec2:DeleteNetworkInterface"],
-                                                                            resources=["*"]))
+                                                                                     "kafka-cluster:DescribeTopic"],
+                                                                            resources=[topic]
+                                                                            ))
+        CustomAWSRoleforKafkaConnect_role.add_to_policy(iam.PolicyStatement(effect=iam.Effect.ALLOW,
+                                                                            actions=["kafka-cluster:AlterGroup",
+                                                                                     "kafka-cluster:DescribeGroup"],
+                                                                            resources=[group]
+                                                                            ))
+        CustomAWSRoleforKafkaConnect_role.add_to_policy(iam.PolicyStatement(effect=iam.Effect.ALLOW,
+                                                                            actions=["ec2:CreateNetworkInterface"],
+                                                                            resources=[
+                                                                                "arn:aws:ec2:*:*:network-interface/*"],
+                                                                            conditions={
+                                                                                "StringEquals": {
+                                                                                    "aws:RequestTag/AmazonMSKConnectManaged": ["true"]
+                                                                                },
+                                                                                "ForAllValues:StringEquals": {
+                                                                                    "aws:TagKeys": [
+                                                                                        "AmazonMSKConnectManaged"]
+                                                                                }
+                                                                            }
+                                                                            ))
+        CustomAWSRoleforKafkaConnect_role.add_to_policy(iam.PolicyStatement(effect=iam.Effect.ALLOW,
+                                                                            actions=["ec2:CreateNetworkInterface"],
+                                                                            resources=[
+                                                                                "arn:aws:ec2:*:*:subnet/*",
+                                                                                "arn:aws:ec2:*:*:security-group/*"
+                                                                            ]
+                                                                            ))
+        CustomAWSRoleforKafkaConnect_role.add_to_policy(iam.PolicyStatement(effect=iam.Effect.ALLOW,
+                                                                            actions=["ec2:CreateTags"],
+                                                                            resources=[
+                                                                                "arn:aws:ec2:*:*:network-interface/*"],
+                                                                            conditions={
+                                                                                "StringEquals": {
+                                                                                    "ec2:CreateAction": [
+                                                                                        "CreateNetworkInterface"]
+                                                                                }
+                                                                            }
+                                                                            ))
+        CustomAWSRoleforKafkaConnect_role.add_to_policy(iam.PolicyStatement(effect=iam.Effect.ALLOW,
+                                                                            actions=[
+                                                                                "ec2:DescribeNetworkInterfaces",
+                                                                                "ec2:CreateNetworkInterfacePermission",
+                                                                                "ec2:AttachNetworkInterface",
+                                                                                "ec2:DetachNetworkInterface",
+                                                                                "ec2:DeleteNetworkInterface"],
+                                                                            resources=[
+                                                                                "arn:aws:ec2:*:*:network-interface/*"],
+                                                                            conditions={
+                                                                                "StringEquals": {
+                                                                                    "ec2:ResourceTag/AmazonMSKConnectManaged": [
+                                                                                        "true"]
+                                                                                }
+                                                                            }
+                                                                            ))
 
         KafkaConnectorCreatorLambda_role = iam.Role(self, "KafkaConnectorCreatorLambda_role",
                                                     assumed_by=iam.ServicePrincipal("lambda.amazonaws.com"))
@@ -755,9 +798,6 @@ class VpcStack(Stack):
                                        }
                                    }]
                                    )
-
-        topic = f"arn:aws:kafka:{aws_cdk.Aws.REGION}:{aws_cdk.Aws.ACCOUNT_ID}:topic/{msk_cluster.cluster_name}/*/*"
-        group = f"arn:aws:kafka:{aws_cdk.Aws.REGION}:{aws_cdk.Aws.ACCOUNT_ID}:group/{msk_cluster.cluster_name}/*/*"
 
         # Event Bridge Pipes
         Amazon_EventBridge_Pipe_OrderEventPipe_role = iam.Role(self, "Amazon_EventBridge_Pipe_OrderEventPipe_role",
