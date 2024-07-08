@@ -33,6 +33,11 @@ prerequisites are executed. After that, please follow the steps bellow.
 8. Run "cdk synth".
 9. Run "cdk deploy". When the message "Do you wish to deploy these changes (y/n)?" shows up, type "y" and hit enter. This will create the entire infrastructure, and will take around 1 hour and 15 minutes.
 
+Note that the infrastructure required to run this project is a little bit complex and many things have to happen. Unfortunatelly,
+the only way to know when the infrastructure is finished provisioning is navigating to the Amazon MSK page on the console, then
+"Connectors" under "MSK Connect". The infrastructure will be ready when the "KafkaOrderEventConnector" connector is in the
+"Running" state.
+
 ## Running the example
 
 After following the steps above, the exact same infrastructure as described in the [CQRS on AWS: Synchronizing Command and Query Services with the Transactional Outbox Pattern, the Transaction Log Tailing Technique and the Debezium Connector](https://aws.amazon.com/pt/blogs/aws-brasil/cqrs-na-aws-sincronizando-os-servicos-de-command-e-query-com-o-padrao-transactional-outbox-a-tecnica-transaction-log-tailing-e-o-debezium-connector)

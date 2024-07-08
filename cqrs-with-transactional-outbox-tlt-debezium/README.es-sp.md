@@ -35,6 +35,11 @@ los requisitos previos. Después de eso, siga los pasos que se indican a continu
 8. Ejecute "cdk synth".
 9. Ejecute "cdk deploy". Cuando aparezca el mensaje "Do you wish to deploy these changes (y/n)?" aparezca, escriba "y" y pulse enter. Esto creará toda la infraestructura y tardará unos 1 hora y 15 minutos.
 
+Tenga en cuenta que la infraestructura requerida para ejecutar este proyecto es un poco compleja y tienen que suceder
+muchas cosas. Lamentablemente, la única forma de saber si la infraestructura ha terminado de aprovisionarse es ir a la
+página de Amazon MSK de la consola y, a continuación, a "Connectors", en "MSK Connect". La infraestructura estará lista
+cuando el conector "KafkaOrderEventConnector" esté en estado "Running".
+
 ## Executando o exemplo
 
 Tras seguir los pasos anteriores, se aprovisionará en su cuenta de AWS la misma infraestructura descrita en la entrada

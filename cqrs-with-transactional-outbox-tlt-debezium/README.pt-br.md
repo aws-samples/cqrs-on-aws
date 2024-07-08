@@ -33,6 +33,11 @@ pré-requisitos sejam executados. Depois disso, siga as etapas abaixo.
 8. Execute "cdk synth".
 9. Execute "cdk deploy". Quando a mensagem "Do you wish to deploy these changes (y/n)?" aparecer, digite "y" e pressione enter. Isso criará toda a infraestrutura e levará cerca de 1 hora e 15 minutos.
 
+Note que a infraestrutura necessária para executar esse projeto é um pouco complexa e muitas coisas precisam acontecer.
+Infelizmente, a única maneira de saber quando o provisionamento da infraestrutura foi concluído é navegando até a página
+do Amazon MSK no console e, em seguida, "Connectors" em "MSK Connect". A infraestrutura estará pronta quando o conector
+"KafkaOrderEventConnector" estiver no estado "Running".
+
 ## Executando o exemplo
 
 Depois de seguir as etapas acima, a mesma infraestrutura descrita na postagem do blog [CQRS na AWS: Sincronizando os Serviços de Command e Query com o Padrão Transactional Outbox e a Técnica Polling Publisher](https://aws.amazon.com/pt/blogs/aws-brasil/cqrs-na-aws-sincronizando-os-servicos-de-command-e-query-com-o-padrao-transactional-outbox-e-a-tecnica-polling-publisher)
