@@ -7,7 +7,6 @@ import aws_cdk
 import secrets
 from random import SystemRandom
 from constructs import Construct
-import boto3
 
 from aws_cdk import (
 
@@ -34,8 +33,6 @@ from aws_cdk import (
     CfnOutput
 )
 
-
-# TODO create a S3 cluster to store the MSK connector files.
 class VpcStack(Stack):
 
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
