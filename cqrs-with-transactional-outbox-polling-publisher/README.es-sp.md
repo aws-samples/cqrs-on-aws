@@ -3,7 +3,7 @@
 
 # CQRS en AWS: Sincronizando los Servicios de Command y Query con el Estándar Transactional Outbox y la Técnica Polling Publisher
 
-En esta parte se describe cómo implementar en su cuenta de AWS la infraestructura explorada en la entrada del blog[CQRS en AWS: Sincronizando los Servicios de Command y Query con el Estándar Transactional Outbox y la técnica Transaction Log Tailing](https://aws.amazon.com/es/blogs/aws-spanish/cqrs-en-aws-sincronizando-los-servicios-de-command-y-query-con-el-estandar-transactional-outbox-y-la-tecnica-polling-publisher).
+En esta parte se describe cómo implementar en su cuenta de AWS la infraestructura explorada en la entrada del blog[CQRS en AWS: Sincronizando los Servicios de Command y Query con el Estándar Transactional Outbox y la técnica Polling Publisher](https://aws.amazon.com/es/blogs/aws-spanish/cqrs-en-aws-sincronizando-los-servicios-de-command-y-query-con-el-estandar-transactional-outbox-y-la-tecnica-polling-publisher).
 En este enfoque, sincronizamos los servicios de comandos y consultas mediante una tabla de salida. Cuando los datos
 persisten en las tablas relacionadas con una funcionalidad determinada, también conservamos un registro que representa
 el evento relacionado con los datos que se conservan (por ejemplo, se creó un pedido, se autorizó el pago, etc.). De vez
@@ -33,10 +33,10 @@ los requisitos previos. Después de eso, siga los pasos que se indican a continu
 8. Ejecute "cdk synth".
 9. Ejecute "cdk deploy". Cuando aparezca el mensaje "Do you wish to deploy these changes (y/n)?" aparezca, escriba "y" y pulse enter. Esto creará toda la infraestructura y tardará unos 30 minutos.
 
-## Executando o exemplo
+## Ejecutando el Ejemplo
 
 Tras seguir los pasos anteriores, se aprovisionará en su cuenta de AWS la misma infraestructura descrita en la entrada
-del blog [CQRS en AWS: Sincronizando los Servicios de Command y Query con Amazon SQS](https://aws.amazon.com/es/blogs/aws-spanish/cqrs-en-aws-sincronizando-los-servicios-de-command-y-query-con-amazon-sqs).
+del blog [CQRS en AWS: Sincronizando los Servicios de Command y Query con el Estándar Transactional Outbox y la Técnica Polling Publisher](https://aws.amazon.com/es/blogs/aws-spanish/cqrs-en-aws-sincronizando-los-servicios-de-command-y-query-con-el-estandar-transactional-outbox-y-la-tecnica-polling-publisher).
 Esto incluye las bases de datos y las API para los servicios de comandos y consultas. Para ejecutar el ejemplo,
 después de aprovisionar la infraestructura en su cuenta de AWS, siga los pasos que se indican a continuación.
 

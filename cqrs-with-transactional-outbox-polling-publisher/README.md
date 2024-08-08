@@ -34,8 +34,8 @@ prerequisites are executed. After that, please follow the steps bellow.
 ## Running the example
 
 After following the steps above, the exact same infrastructure as described in the [CQRS on AWS: Synchronizing Command and Query Services
-with Amazon SQS](https://aws.amazon.com/pt/blogs/aws-brasil/cqrs-na-aws-sincronizando-os-servicos-de-command-e-query-com-o-amazon-sqs) blog post will be provisioned in your AWS account. This includes the databases and APIs of both the
-command and query services.
+with the Transactional Outbox Pattern and the Polling Publisher Technique](https://aws.amazon.com/pt/blogs/aws-brasil/cqrs-na-aws-sincronizando-os-servicos-de-command-e-query-com-o-padrao-transactional-outbox-e-a-tecnica-polling-publisher)
+blog post will be provisioned in your AWS account. This includes the databases and APIs of both the command and query services.
 
 To run the example, after provisioning the infrastructure in your AWS account, please follow the steps bellow.
 
