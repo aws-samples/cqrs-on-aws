@@ -82,7 +82,7 @@ class VpcStack(Stack):
                                    subnets=ec2.SubnetSelection(
                                        subnet_type=ec2.SubnetType.PRIVATE_WITH_EGRESS
                                    ),
-                                   security_groups=[secrets_manager_sg]
+                                   security_groups=[secrets_manager_endpoint_sg]
                                    )
 
         db_sg = ec2.SecurityGroup(self,
