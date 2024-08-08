@@ -40,7 +40,7 @@ do Amazon MSK no console e, em seguida, "Connectors" em "MSK Connect". A infraes
 
 ## Executando o exemplo
 
-Depois de seguir as etapas acima, a mesma infraestrutura descrita na postagem do blog [CQRS na AWS: Sincronizando os Serviços de Command e Query com o Padrão Transactional Outbox e a Técnica Polling Publisher](https://aws.amazon.com/pt/blogs/aws-brasil/cqrs-na-aws-sincronizando-os-servicos-de-command-e-query-com-o-padrao-transactional-outbox-e-a-tecnica-polling-publisher)
+Depois de seguir as etapas acima, a mesma infraestrutura descrita na postagem do blog [CQRS na AWS: Sincronizando os Serviços de Command e Query com o Padrão Transactional Outbox, a Técnica Transaction Log Tailing e o Debezium Connector](https://aws.amazon.com/pt/blogs/aws-brasil/cqrs-na-aws-sincronizando-os-servicos-de-command-e-query-com-o-padrao-transactional-outbox-a-tecnica-transaction-log-tailing-e-o-debezium-connector)
 será provisionada em sua conta da AWS. Isso inclui os bancos de dados e as APIs dos serviços de comando e consulta. Para
 executar o exemplo, depois de provisionar a infraestrutura em sua conta da AWS, siga as etapas abaixo.
 
@@ -79,7 +79,7 @@ Emita essa solicitação. Você deverá ver a seguinte saída:
 ```shell
 curl -H "Authorization: Basic <valor da chave de API copiada no passo #4 em base64>" https://xyz123.execute-api.us-east-1.amazonaws.com/prod/clients/1
 ```
-Pelo fato de que os registros da tabela são recuperados de tempos em tempos (a cada 1 minuto, no caso desse exemplo), será necessário esperar o minuto seguinte. Após esperar, emita a requisição. Você deve ter uma saída semelhante à seguinte:
+Emita a requisição. Você deve ter uma saída semelhante à seguinte:
 ```json
 {
     "name": "Bob",

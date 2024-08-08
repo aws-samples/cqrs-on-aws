@@ -80,7 +80,7 @@ Issue this request. You should see the following output:
 ```shell
 curl -H "Authorization: Basic <VALUE OF THE API KEY COPIED IN STEP #4 IN BASE64>" https://xyz123.execute-api.us-east-1.amazonaws.com/prod/clients/1
 ```
-Because the table records are retrieved from time to time (every 1 minute, in the case of this example), it will be necessary to wait for the next minute. After waiting, issue the request. You should have an output similar to the following:
+Issue the request. You should have an output similar to the following:
 ```json
 {
     "name": "Bob",

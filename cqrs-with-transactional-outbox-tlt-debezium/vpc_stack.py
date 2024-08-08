@@ -59,14 +59,19 @@ class VpcStack(Stack):
 
         vpc.add_flow_log("CQRS-vpcFlowLog")
 
-        db_sg = ec2.SecurityGroup(self,
-                                  "db-sg",
-                                  vpc=vpc,
-                                  )
+        sqs_endpoint_sg = ec2.SecurityGroup(self, "sqs-endpoint-sg",
+                                     vpc=vpc,
+                                     allow_all_outbound=False
+                                     )
+
+        secrets_manager_endpoint_sg = ec2.SecurityGroup(self, "secrets-manager-endpoint-sg",
+                                               vpc=vpc,
+                                               allow_all_outbound=False
+                                               )
 
         vpc.add_interface_endpoint("sqs-endpoint",
                                    service=ec2.InterfaceVpcEndpointAwsService.SQS,
-                                   security_groups=[db_sg],
+                                   security_groups=[sqs_endpoint_sg],
                                    subnets=ec2.SubnetSelection(
                                        subnet_type=ec2.SubnetType.PRIVATE_WITH_EGRESS
                                    ),
@@ -77,8 +82,13 @@ class VpcStack(Stack):
                                    subnets=ec2.SubnetSelection(
                                        subnet_type=ec2.SubnetType.PRIVATE_WITH_EGRESS
                                    ),
-                                   security_groups=[db_sg]
+                                   security_groups=[secrets_manager_sg]
                                    )
+
+        db_sg = ec2.SecurityGroup(self,
+                                  "db-sg",
+                                  vpc=vpc,
+                                  )
 
         # security group creation
         lambda_to_redis_sg = ec2.SecurityGroup(self,
@@ -178,6 +188,36 @@ class VpcStack(Stack):
         db_sg.add_ingress_rule(
             peer=ec2.Peer.security_group_id(order_receiver_sg.security_group_id),
             connection=ec2.Port.tcp(5432)
+        )
+
+        ordereventtablecleaner_sg.add_egress_rule(
+            peer=ec2.Peer.ipv4(vpc.vpc_cidr_block),
+            connection=ec2.Port.tcp(5432)
+        )
+
+        ordereventtablecleaner_sg.add_egress_rule(
+            peer=ec2.Peer.security_group_id(secrets_manager_endpoint_sg.security_group_id),
+            connection=ec2.Port.tcp(443)
+        )
+
+        secrets_manager_endpoint_sg.add_ingress_rule(
+            peer=ec2.Peer.ipv4(vpc.vpc_cidr_block),
+            connection=ec2.Port.tcp(443)
+        )
+
+        sqs_endpoint_sg.add_ingress_rule(
+            peer=ec2.Peer.ipv4(vpc.vpc_cidr_block),
+            connection=ec2.Port.tcp(443)
+        )
+
+        order_receiver_sg.add_egress_rule(
+            peer=ec2.Peer.ipv4(vpc.vpc_cidr_block),
+            connection=ec2.Port.tcp(5432)
+        )
+
+        order_receiver_sg.add_egress_rule(
+            peer=ec2.Peer.ipv4(vpc.vpc_cidr_block),
+            connection=ec2.Port.tcp(443)
         )
 
         # Bucket S3 creation for debezium custom plugin files

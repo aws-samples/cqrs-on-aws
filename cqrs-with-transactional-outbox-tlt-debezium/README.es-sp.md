@@ -43,7 +43,7 @@ cuando el conector "KafkaOrderEventConnector" esté en estado "Running".
 ## Executando o exemplo
 
 Tras seguir los pasos anteriores, se aprovisionará en su cuenta de AWS la misma infraestructura descrita en la entrada
-del blog [CQRS en AWS: Sincronizando los Servicios de Command y Query con Amazon SQS](https://aws.amazon.com/es/blogs/aws-spanish/cqrs-en-aws-sincronizando-los-servicios-de-command-y-query-con-amazon-sqs).
+del blog [CQRS en AWS: Sincronizando los Servicios de Command y Query con el Estándar Transactional Outbox, la Técnica Transaction Log Tailing y el Debezium Connector](https://aws.amazon.com/es/blogs/aws-spanish/cqrs-en-aws-sincronizando-los-servicios-de-command-y-query-con-el-estandar-transactional-outbox-la-tecnica-transaction-log-tailing-y-el-debezium-connector/).
 Esto incluye las bases de datos y las API para los servicios de comandos y consultas. Para ejecutar el ejemplo,
 después de aprovisionar la infraestructura en su cuenta de AWS, siga los pasos que se indican a continuación.
 
@@ -82,7 +82,7 @@ Emita esta solicitud. Deberías ver el siguiente resultado:
 ```shell
 curl -H "Authorization: Basic <valor de la clave de API se copió en el paso #4 en base64>" https://xyz123.execute-api.us-east-1.amazonaws.com/prod/clients/1
 ```
-Como los registros de la tabla se recuperan de vez en cuando (cada 1 minuto, en el caso de este ejemplo), será necesario esperar al minuto siguiente. Tras esperar, emita la solicitud. Debería tener un resultado similar al siguiente:
+Emita la solicitud. Debería tener un resultado similar al siguiente:
 ```json
 {
     "name": "Bob",
