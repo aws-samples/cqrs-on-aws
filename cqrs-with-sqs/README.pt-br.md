@@ -3,7 +3,7 @@
 
 # CQRS na AWS: Sincronizando os Serviços de Command e Query com o Amazon SQS
 
-Esta parte descreve como ter a infraestrutura explorada na postagem do blog [CQRS na AWS: Sincronizando os Serviços de
+Esta parte descreve como ter a infraestrutura explorada no blog post [CQRS na AWS: Sincronizando os Serviços de
 Command e Query com o Amazon SQS](https://aws.amazon.com/pt/blogs/aws-brasil/cqrs-na-aws-sincronizando-os-servicos-de-command-e-query-com-o-amazon-sqs) implantada em sua conta da AWS. Nessa abordagem, sincronizamos os serviços de comandos
 e consultas publicando eventos em uma fila do Amazon SQS a partir do serviço de comando, a ser consumida pelo serviço de consulta.
 
