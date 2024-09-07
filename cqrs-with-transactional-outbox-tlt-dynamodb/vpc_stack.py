@@ -505,7 +505,7 @@ class VpcStack(Stack):
                                        source=dynamo_table.table_stream_arn,
                                        source_parameters=pipes.CfnPipe.PipeSourceParametersProperty(
                                            dynamo_db_stream_parameters=pipes.CfnPipe.PipeSourceDynamoDBStreamParametersProperty(
-                                               starting_position="TRIM_HORIZON", batch_size=1
+                                               starting_position="TRIM_HORIZON", batch_size=10
                                            )
                                        ),
                                        target=order_event_topic.topic_arn,
